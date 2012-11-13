@@ -25,22 +25,100 @@
         <![endif]-->
 
         <header id="branding">
-            <section>
-                <h1>Royal Pioneers</h1>
-            </section>            
+            <section class="header">
+                <div id="logo">
+                    <a href="#home" title="Royal Pioneers"><h1>Royal Pioneers</h1></a>
+                </div>
+
+                <nav id="menu-content">
+                    <ul id="menu-principal">
+                        <li><a href="#" title="Opcion 1">Menu 1</a></li>
+                        <li><a href="#" title="Opcion 2">Menu 2</a></li>
+                        <li><a href="#" title="Opcion 3">Menu 3</a></li>
+                        <li><a href="#" title="Opcion 4">Menu 4</a></li>
+                    </ul>
+                </nav><!-- end #menu-content -->
+
+                <aside id="link-actions">
+                    <div><a title="Button">Search</a></div>
+                    <div><a title="Button">Language</a></div>
+                    <div><a title="Button">Tutorial</a></div>
+                    <div><a title="Button">Login / Register</a></div>
+                    <div><a title="Button">Cart Shop</a></div>
+                </aside>                    
+            </section>
+
+            <section id="config-buy">
+                <dl>
+                    <dd>Private Buy</dd>
+                    <dd>Group Buy</dd>
+                </dl>
+
+                <div class="select-container hidden">
+                    <form id="form-pb">
+                        <fieldset>
+                            <select name="country" id="country-pb">
+                                <option value="0">Choose Country</option>
+                                <option value="PER">Peru</option>
+                                <option value="COL">Colombia</option>
+                                <option value="USA">USA</option>
+                            </select>
+
+                            <button type="submit">Done</button>
+                        </fieldset>
+                    </form>
+
+                    <form id="form-gb">
+                        <fieldset>
+                            <select name="country" id="country-gb">
+                                <option value="0">Choose Country</option>
+                                <option value="PER">Peru</option>
+                                <option value="COL">Colombia</option>
+                                <option value="USA">USA</option>
+                            </select>
+
+                            <select name="city" id="city-gb">
+                                <option value="0">Choose City</option>
+                                <option value="LIM">Lima</option>
+                                <option value="LIB">Libertad</option>
+                                <option value="CUS">Cusco</option>
+                            </select>
+
+                            <button type="submit">Done</button>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <button id="btn-config">Config.</button>
+
+            </section><!-- end #config-buy -->         
         </header>
 
         <section id="wrapper">
 
-            <div id="main">                
-            </div><!-- end #main --> 
+            <section id="main">
+                <div></div>
+            </section><!-- end #main --> 
 
-            <aside id="container-panel">                
+            <aside id="container-panel">
+
+                <div>
+                    <h2>Private Buy</h2>
+                </div>
+
+                <div id="container-canvas">                    
+                </div>
+
             </aside><!-- end #container-panel --> 
 
         </section><!-- end #wrapper --> 
 
         <footer id="colophon">
+            <address>
+                Ave. Larco #152 - Miraflores Lima
+            </address>
+
+            <cite>&copy; All copyright reserved - Royal pioneers 2012 </cite>
         </footer><!-- end #colophon -->    
       
 

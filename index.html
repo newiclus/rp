@@ -25,7 +25,7 @@
         <![endif]-->
 
         <header id="branding">
-            <section class="header">
+            <div class="header">
                 <div id="logo">
                     <a href="#home" title="Royal Pioneers">
                         <hgroup>
@@ -50,15 +50,15 @@
                     <div><a title="Button">Login / Register</a></div>
                     <div><a title="Button">Cart Shop</a></div>
                 </aside>                    
-            </section>
+            </div>
 
-            <section id="config-buy">
+            <div id="config-buy">
                 <dl>
                     <dd>Private Buy</dd>
                     <dd>Group Buy</dd>
                 </dl>
 
-                <div class="select-container hidden">
+                <div class="select-container">
                     <form id="form-pb">
                         <fieldset>
                             <select name="country" id="country-pb">
@@ -94,10 +94,57 @@
                 </div>
 
                 <button id="btn-config">Config.</button>
-            </section><!-- end #config-buy -->         
+            </div><!-- end #config-buy -->
+
+            <nav id="menu-category">
+                <ul class="content-category">
+                    <li><a href="#category1">Category 1</a></li>
+                    <li><a href="#category2">Category 2</a></li>
+                    <li><a href="#category3">Category 3</a></li>
+                    <li><a href="#category4">Category 4</a></li>
+                    <li><a href="#category5">Category 5</a></li>
+                </ul>
+            </nav>
+
+            <section id="search" class="">
+                <article>
+                    <p><strong>Search Royal Pioneers</strong> </p>
+                    <p>Type your product</p>
+                    <form>
+                        <fieldset>
+                            <select name="category" id="list-category">
+                                <option value="0">Category</option>
+                                <option value="1">All</option>
+                                <option value="2">Home</option>
+                                <option value="3">Computer</option>
+                                <option value="4">Clothes</option>
+                                <option value="5">Book</option>
+                            </select>
+
+                            <input type="search" name="search-principal">
+
+                            <button type="submit">search</button>
+                        </fieldset>
+
+                        <section id="option-search">                            
+                            <div id="range-price">Range Price</div>
+
+                            <div id="range-time">Range Time</div>
+
+                            <div id="modality-buy">
+                                <ul>
+                                    <li class="modality"><a href="#">Private Buy</a></li>
+                                    <li class="modality"><a href="#">Group Buy</a></li>
+                                </ul>
+                            </div>
+                        </section>
+
+                    </form>
+                </article>
+            </section>       
         </header>
 
-        <section id="wrapper">
+        <div id="wrapper">
 
             <section id="main">
                 <header class="details-buy">
@@ -111,18 +158,77 @@
                     </nav>
                 </header>
 
+                <article id="slogan-manufacture">
+                    <a href="#" class="link-manufacture"><img src="images/manufacture/branding/" alt=""></a>
+                </article>
+
                 <div id="content-product">
                     <dl>
-                       <dd>
-                           <figure>
-                               <img src="images/">
-                           </figure>
-                       </dd>
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <figure>
+                               <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/belt.jpg" width="150" height="150">
+                               <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                            </figure>
+                            
+                            <div class="options-item">
+                                <button class="btn-review">View Review</button>
+                                <button class="add-cart">Add cart</button>
+                            </div>                            
+                        </dd>
 
-                       <dd>Product 2</dd>
-                       <dd>Product 3</dd>
-                       <dd>Product 4</dd>
-                       <dd>Product 5</dd>
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <figure>
+                                <img itemprop="image" alt="The South Shore shoe bag" src="images/photo/product/carrier_bag.jpg" width="150" height="150">
+                                <figcaption itemprop="name">The South Shore shoe bag</figcaption>
+                            </figure>                            
+
+                            <div class="options-item">
+                                <button class="btn-review">View Review</button>
+                                <button class="add-cart">Add cart</button>
+                            </div>                            
+                        </dd>
+
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <figure>
+                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/funda_raquetas.jpg" width="150" height="150">
+                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                            </figure>
+                            
+                            <div class="options-item">
+                                <button class="btn-review">View Review</button>
+                                <button class="add-cart">Add cart</button>
+                            </div>
+
+                        </dd>
+
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <figure>
+                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/raquetas_pinpong.jpg" width="150" height="150">
+                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                            </figure>
+                            
+                            <div class="options-item">
+                                <button class="btn-review">View Review</button>
+                                <button class="add-cart">Add cart</button>
+                            </div>
+                        </dd>
+
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <figure>
+                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/wallet.jpg" width="150" height="150">
+                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                            </figure>
+                            
+                            <div class="options-item">
+                                <button class="btn-review">View Review</button>
+                                <button class="add-cart">Add cart</button>
+                            </div>
+                        </dd>
                    </dl>                   
                 </div>
 
@@ -134,18 +240,26 @@
                 </header>
 
                 <div id="container-canvas">
-                    <ol>
-                       <li>product 1</li>
-                       <li>product 2</li>
-                       <li>product 3</li>
-                       <li>product 4</li>
-                       <li>product 5</li>
+                    <ol class="container-list">
+                        <li>
+                            <a>
+                                <img src="images/photo/product/thumb/thumb_1.jpg">
+                                <span class="title-product">Thin braided cork belt</span>
+                            </a>
+                        </li>
+
+                       <li>
+                            <a>
+                                <img src="images/photo/product/thumb/thumb_2.jpg">
+                                <span class="title-product">The South Shore shoe bag</span>
+                            </a>
+                        </li>
                    </ol>                   
                 </div>
 
             </aside><!-- end #container-panel --> 
 
-        </section><!-- end #wrapper --> 
+        </div><!-- end #wrapper --> 
 
         <footer id="colophon">
             <address>

@@ -25,8 +25,8 @@
         <![endif]-->
 
         <header id="branding">
-            <div class="header">
-                <div id="logo">
+            <div class="header content">
+                <div id="logo" class="side-left">
                     <a href="#home" title="Royal Pioneers">
                         <hgroup>
                             <h1>Royal Pioneers</h1>
@@ -34,7 +34,7 @@
                     </a>
                 </div>
 
-                <nav id="menu-content">
+                <nav id="menu-content" class="side-left">
                     <ul id="menu-principal">
                         <li><a href="#" title="Opcion 1">Menu 1</a></li>
                         <li><a href="#" title="Opcion 2">Menu 2</a></li>
@@ -43,7 +43,7 @@
                     </ul>
                 </nav><!-- end #menu-content -->
 
-                <aside id="link-actions">
+                <aside id="link-actions" class="side-left">
                     <div><a title="Button">Search</a></div>
                     <div><a title="Button">Language</a></div>
                     <div><a title="Button">Tutorial</a></div>
@@ -52,7 +52,7 @@
                 </aside>                    
             </div>
 
-            <div id="config-buy">
+            <div id="config-buy" class="hidden">
                 <dl>
                     <dd>Private Buy</dd>
                     <dd>Group Buy</dd>
@@ -91,10 +91,10 @@
                             <button type="submit">Done</button>
                         </fieldset>
                     </form>
-                </div>
-
-                <button id="btn-config">Config.</button>
+                </div>                
             </div><!-- end #config-buy -->
+
+            <button id="btn-config">Config.</button>
 
             <nav id="menu-category">
                 <ul class="content-category">
@@ -106,7 +106,7 @@
                 </ul>
             </nav>
 
-            <section id="search" class="">
+            <section id="search" class="hidden">
                 <article>
                     <p><strong>Search Royal Pioneers</strong> </p>
                     <p>Type your product</p>
@@ -144,9 +144,9 @@
             </section>       
         </header>
 
-        <div id="wrapper">
+        <div id="wrapper" class="content">
 
-            <section id="main">
+            <section id="main" class="side-left">
                 <header class="details-buy">
                     <h1>Private Buy</h1>
                     <nav class="breadcumbs">
@@ -231,10 +231,9 @@
                         </dd>
                    </dl>                   
                 </div>
-
             </section><!-- end #main --> 
 
-            <aside id="container-panel">
+            <aside id="container-panel" class="side-right">
                 <header class="header-container">
                     <h2>Private Buy</h2>
                 </header>
@@ -256,9 +255,7 @@
                         </li>
                    </ol>                   
                 </div>
-
             </aside><!-- end #container-panel --> 
-
         </div><!-- end #wrapper --> 
 
         <footer id="colophon">

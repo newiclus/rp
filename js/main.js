@@ -1,11 +1,39 @@
 /* Name: Royal Pioneers
    Author: Team RP 
-   rp namespace
+   RP namespace
 */
 
 
 RP = {
     common : {
+        init : function() {
+
+            //Button config for Modality Buy
+            $('#btn-config').on('click', function() {
+                $('#config-buy').slideToggle(350);
+            });
+
+            //Show it Search
+            var showSearch = function() {
+                $('.btn-showSearch').on('click', function(e) {
+                    e.preventDefault();
+                    $('#search').fadeToggle();
+                });
+
+                $('#btn-closeSearch').on('click', function() {
+                    $('#search').fadeOut();
+                });
+            };
+            showSearch();
+                
+        },
+
+        finalize : function() {
+            //finalize
+        }
+    },
+
+    lightbox : {
         init : function() {
 
             require(['vendor/lightbox'], function() {//Requiero de la libreria lightbox
@@ -35,7 +63,7 @@ RP = {
         },
 
         geolocate : function() {
-            //geolocation is cool
+            //geolocation is cool            
         },
 
         geocode : function() {
@@ -52,7 +80,7 @@ RP = {
     },
 
     //Consulta al API del clima de Yahoo Wheater
-    liveWeather : {        
+    liveWeather : {
         init : function() {
             this.parameters = {};
             this.parameters.op = 'clima';
@@ -73,10 +101,64 @@ RP = {
                 }
             });
         }
-    }
-}
+    },
 
-//Examples
+
+    //Modality Buy
+    buy : {
+        init: function() {
+
+            $('#content-product dl dd').hover(
+                function() {
+                    $('.name-product', this).fadeIn();
+                    $('.options-item', this).fadeIn();
+                },
+                function() {
+                    $('.name-product', this).fadeOut();
+                    $('.options-item', this).fadeOut();
+                }
+            );
+        },
+
+        private: function() {
+
+        },
+
+        group: function() {
+
+        }
+
+    }
+};
+
+UTIL = {
+    exec: function(controller, action) {
+        var ns = RP,
+            action = (action === undefined) ? "init" : action;
+ 
+        if (controller !== "" && ns[controller] && typeof ns[controller][action] == "function") {
+            ns[controller][action]();
+        }
+    },
+ 
+    init: function() {
+        var body = document.body,
+            controller = body.getAttribute("data-controller"),
+            action = body.getAttribute("data-action");
+ 
+        UTIL.exec("common");
+        UTIL.exec(controller);
+        UTIL.exec(controller, action);
+    }
+};
+ 
+$(document).on('ready', UTIL.init);
+
+
+
+
+
+//Tutorial
 
 /*
 

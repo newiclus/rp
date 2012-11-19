@@ -12,7 +12,9 @@ Tags: Royal Pioneers, Retails, Import and Export, Products, Peru, Sales of Produ
    Base styles: opinionated defaults
    ========================================================================== */
 body {
-    font-size: 1em;}
+    background-color: #f5f5f5;
+    font-size: 1em;
+    -webkit-font-smoothing: antialiased;}
 
 ::-moz-selection {
     background: #b3d4fc;
@@ -101,9 +103,7 @@ textarea {resize: vertical;}
 
 
 /* Hide from both screenreaders and browsers: h5bp.com/u */
-.hidden {
-    display: none !important;
-    visibility: hidden;}
+.hidden {display: none;}
 
 
 /* Image replacement */
@@ -168,29 +168,153 @@ textarea {resize: vertical;}
 /* ==========================================================================
    Structure
    ========================================================================== */
-#branding, #colophon, #wrapper {
+#branding, #colophon {
     margin: 0 auto;
-    max-width: 80em;}
+    width: 100%;}
 
 #container-panel {
-    width: 25%;}
+    width: 22%;}
 
-#colophon {
+#colophon {    
     height: 100px;}
 
 #main {
-    width: 75%;}
+    width: 70%;}
 
 #search {
-    display: none;}
+    background-color: rgb(245,245,245);
+    background-color: rgba(245,245,245,0.85);
+    height: 100%;
+    margin-top: 60px;
+    width: 100%;
+    z-index: 10;}
+
+#wrapper {
+    margin: 0 auto;
+    max-width: 80em;}
 
 
 
 /* ==========================================================================
    Header
    ========================================================================== */
-#branding .header {
-    width: 100%;
+#btn-config {
+    background: #CCC url(../images/icon/config_24.png) center center no-repeat;
+    border: 0;
+    color: #FFF;
+    height: 40px;    
+    left: 50%;
+    top: 10px;
+    width: 50px;}
+
+#branding #top-header {background-color: #E6E6E6;}
+
+#branding .header, 
+#menu-category ul, 
+#modality-buy, 
+#search article {    
+    margin: 0 auto;
+    max-width: 80em;}
+
+#config-buy {
+    background-color: rgb(86,103,116);
+    background-color: rgba(86,103,116,0.7);}
+
+#logo {
+    padding: 10px 15px 0 0;}
+
+/* #btn-config {margin} */
+#link-actions {padding-top: 10px;}
+
+    #link-actions div {
+        border: #898989 solid 1px;
+        border-top: #FFF solid 1px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        float: left;
+        margin-right: 15px;}
+
+    #link-actions div a {
+        background: #dadada;
+        background: -moz-linear-gradient(top,  #dadada 46%, #d2d2d2 53%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(46%,#dadada), color-stop(53%,#d2d2d2));
+        background: -webkit-linear-gradient(top,  #dadada 46%,#d2d2d2 53%);
+        background: -ms-linear-gradient(top,  #dadada 46%,#d2d2d2 53%);
+        background: linear-gradient(to bottom,  #dadada 46%,#d2d2d2 53%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dadada', endColorstr='#d2d2d2', GradientType=0);    
+        color: #676767;
+        cursor: pointer;
+        display:block;
+        font: 300 0.80em /30px sans-serif;
+        padding: 0 5px;
+        text-shadow: 0 1px 1px #FFF;}
+
+    #link-actions div a:hover {
+        background: #EEE;
+        color:#535353;}
+
+
+#logo-title {
+    color: transparent;
+    font-size: 0px;    
+    text-indent: -9em;}
+
+
+#menu-category {background-color: #494949;}
+
+    #menu-category ul li {float: left;}
+
+    #menu-category ul li a {
+        color: #FFF;
+        display: block;
+        font: 300 0.9em/40px sans-serif;
+        height: 40px;
+        padding: 0 15px;}
+
+    #menu-category ul li a:hover {
+        background-color: #FFC94E; /*  bgcolor del btn menu category */
+        color: #777;}
+
+
+#menu-content {width: 48%}
+
+#menu-principal {
+    margin: 0;
+    overflow: hidden;
+    width: 100%;}
+
+    #menu-principal li {
+        border-left: #CCC solid 1px;        
+        float: left;}
+
+    #menu-principal li a {
+        border-left: #FFF solid 1px;
+        color: #797979;
+        font: 600 0.90em/60px 'Inder', sans-serif;
+        height: 60px;        
+        display:block;
+        padding: 0 15px;
+        text-transform: uppercase;}
+
+    #menu-principal li a:hover {
+        background-color: #CCC;
+        color: #555;}
+
+#modality-buy {text-align: center;}
+
+#modality-buy dd {
+    border: #FFF solid 1px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font: 300 1.15em/50px sans-serif;
+    height: 50px;
+    margin: 0;
+    width: 200px;}
+
+#search article {
+    margin-top: 20px;
+    position: relative;
 }
 
 
@@ -198,13 +322,107 @@ textarea {resize: vertical;}
 /* ==========================================================================
    Content
    ========================================================================== */
+#content-product dd {
+    float: left;
+    margin-bottom: 40px;
+    position: relative;}
+
+    #content-product dd figcaption,
+    #content-product dd .name-product,
+    #content-product dd .options-item {display: none;}
+
+
+.breadcumbs ul li {
+    font:300 0.8em sans-serif; 
+    float: left;}
+
+    .breadcumbs ul li a {
+        color: #595959;}
+
+    .breadcumbs ul li a:hover {color: #333;}
+
+
+.details-buy h1 {
+    font: 700 1.5em sans-serif;
+    color: #777;
+    text-shadow: 0 1px 1px #FFF;}
+
+.name-product {
+    background-color: rgba(200,200,200,0.7);
+    width: 100%;
+    z-index: 10;}
+
+    .name-product p {
+        float: left;
+        font: 300 0.8em sans-serif;
+        margin: 0;
+        padding: 0;}
+
+    .name-product .price {
+        display: inline-block;
+        float: left;}
+
+
+.options-item {
+    background-color: rgba(200,200,200,0.7);
+    text-align: right;
+    width: 100%;
+    z-index: 10;}
+
+.options-item button {
+    font-size: 0.75em;}
+
+
+
+/* ==========================================================================
+   Canvas Container
+   ========================================================================== */
+#container-canvas ol {
+    border: #777 dashed 2px;
+    border-radius: 7px;
+    margin: 0 auto;
+    padding: 15px 0 0 15px;
+    width: 80%;}
+
+#container-canvas ol li {
+    list-style: none;
+    float: left;
+    margin-right: 15px;}
+
+#container-canvas li .title-product {display: none;}
+
+#container-panel h2 {
+    background-color: #B1C66B;
+    color: #FFFFFF;
+    line-height: 40px;
+    text-align: center;}
+
+#trash-bin ul {
+    border: #CCC solid 1px;
+    border-radius: 7px;
+    height: 50px;
+    padding: 0;}
+
+#trash-bin li {
+    list-style: none;
+    float: left;}
+
+#measure-container {
+    border: #CCC solid 1px;
+    border-radius: 7px;
+    text-align: center;}
+
+#measure-container p, #measure-container div {
+    display: inline-block;}
 
 
 
 /* ==========================================================================
    Footer
    ========================================================================== */
-
+.content-footer {
+    margin: 0 auto;
+    max-width: 80em;}
 
 
 
@@ -225,9 +443,7 @@ textarea {resize: vertical;}
 
 
 /* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
-   Modify as content requires.
+   Media Queries
    ========================================================================== */
 
 @media only screen and (min-width: 35em) {

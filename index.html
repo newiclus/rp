@@ -14,51 +14,96 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link href='http://fonts.googleapis.com/css?family=Inder:400italic,400' rel='stylesheet' type='text/css'>
+
+        <!--[if lt IE 8]>
+            <link rel="stylesheet" href="css/ie.css">
+        <![endif]-->
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script data-main="js/" src="js/require.min.js"> </script>
     </head>
 
-    <body>
-        <!--[if lt IE 7]>
+    <body data-controller="buy" data-action="private">
+        <!--[if lt IE 8]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
+        <section id="search" class="absolute-TopLeft hidden">
+            <article class="content">
+                <button id="btn-closeSearch" class="absolute-TopRight">Close</button>
+                <p><strong>Search Royal Pioneers</strong> </p>
+                <p>Type your product</p>
+                <form>
+                    <fieldset>
+                        <select name="category" id="list-category">
+                            <option value="0">Category</option>
+                            <option value="1">All</option>
+                            <option value="2">Home</option>
+                            <option value="3">Computer</option>
+                            <option value="4">Clothes</option>
+                            <option value="5">Book</option>
+                        </select>
+
+                        <input type="search" name="search-principal">
+
+                        <button type="submit">search</button>
+                    </fieldset>
+
+                    <section id="option-search">                            
+                        <div id="range-price" class="side-left">Range Price</div>
+
+                        <div id="range-time" class="side-left" >Range Time</div>
+
+                        <div id="modality-option" class="side-left">
+                            <ul>
+                                <li class="modality"><a href="#">Private Buy</a></li>
+                                <li class="modality"><a href="#">Group Buy</a></li>
+                            </ul>
+                        </div>
+                    </section>
+
+                </form>
+            </article>
+        </section><!-- end #search -->
+
         <header id="branding">
-            <div class="header content">
-                <div id="logo" class="side-left">
-                    <a href="#home" title="Royal Pioneers">
+            <div id="top-header">
+                <div class="header content">
+                    <div id="logo" class="side-left">
                         <hgroup>
-                            <h1>Royal Pioneers</h1>
-                        </hgroup>                        
-                    </a>
+                            <h1 id="logo-title">Royal Pioneers<a href="#home" title="Royal Pioneers"><img src="images/logo/logo_rp.png" alt="Logo Royal Pioneers" height="40"></a></h1>
+                        </hgroup>
+                    </div>
+
+                    <nav id="menu-content" class="side-left">
+                        <ul id="menu-principal">
+                            <li><a href="#" title="Opcion 1">Menu 1</a></li>
+                            <li><a href="#" title="Opcion 2">Menu 2</a></li>
+                            <li><a href="#" title="Opcion 3">Menu 3</a></li>
+                            <li><a href="#" title="Opcion 4">Menu 4</a></li>                            
+                        </ul>
+                    </nav><!-- end #menu-content -->
+
+                    <button id="btn-config" class="absolute-TopLeft">&nbsp;</button>
+
+                    <aside id="link-actions" class="side-left">
+                        <div><a class="btn-showSearch" title="Button">Search</a></div>
+                        <div><a class="" title="Button">Language</a></div>
+                        <div><a class="" title="Button">Tutorial</a></div>
+                        <div><a class="" title="Button">Login / Register</a></div>
+                        <div><a class="" title="Button">Cart Shop</a></div>
+                    </aside>
                 </div>
-
-                <nav id="menu-content" class="side-left">
-                    <ul id="menu-principal">
-                        <li><a href="#" title="Opcion 1">Menu 1</a></li>
-                        <li><a href="#" title="Opcion 2">Menu 2</a></li>
-                        <li><a href="#" title="Opcion 3">Menu 3</a></li>
-                        <li><a href="#" title="Opcion 4">Menu 4</a></li>
-                    </ul>
-                </nav><!-- end #menu-content -->
-
-                <aside id="link-actions" class="side-left">
-                    <div><a title="Button">Search</a></div>
-                    <div><a title="Button">Language</a></div>
-                    <div><a title="Button">Tutorial</a></div>
-                    <div><a title="Button">Login / Register</a></div>
-                    <div><a title="Button">Cart Shop</a></div>
-                </aside>                    
             </div>
 
             <div id="config-buy" class="hidden">
-                <dl>
+                <dl id="modality-buy" class="content">
                     <dd>Private Buy</dd>
                     <dd>Group Buy</dd>
                 </dl>
 
-                <div class="select-container">
+                <div class="select-container hidden">
                     <form id="form-pb">
                         <fieldset>
                             <select name="country" id="country-pb">
@@ -92,154 +137,146 @@
                         </fieldset>
                     </form>
                 </div>                
-            </div><!-- end #config-buy -->
-
-            <button id="btn-config">Config.</button>
+            </div><!-- end #config-buy -->            
 
             <nav id="menu-category">
-                <ul class="content-category">
+                <ul class="content-category content">
                     <li><a href="#category1">Category 1</a></li>
                     <li><a href="#category2">Category 2</a></li>
                     <li><a href="#category3">Category 3</a></li>
                     <li><a href="#category4">Category 4</a></li>
                     <li><a href="#category5">Category 5</a></li>
                 </ul>
-            </nav>
-
-            <section id="search" class="hidden">
-                <article>
-                    <p><strong>Search Royal Pioneers</strong> </p>
-                    <p>Type your product</p>
-                    <form>
-                        <fieldset>
-                            <select name="category" id="list-category">
-                                <option value="0">Category</option>
-                                <option value="1">All</option>
-                                <option value="2">Home</option>
-                                <option value="3">Computer</option>
-                                <option value="4">Clothes</option>
-                                <option value="5">Book</option>
-                            </select>
-
-                            <input type="search" name="search-principal">
-
-                            <button type="submit">search</button>
-                        </fieldset>
-
-                        <section id="option-search">                            
-                            <div id="range-price">Range Price</div>
-
-                            <div id="range-time">Range Time</div>
-
-                            <div id="modality-buy">
-                                <ul>
-                                    <li class="modality"><a href="#">Private Buy</a></li>
-                                    <li class="modality"><a href="#">Group Buy</a></li>
-                                </ul>
-                            </div>
-                        </section>
-
-                    </form>
-                </article>
-            </section>       
-        </header>
+            </nav>                   
+        </header><!-- end header -->
 
         <div id="wrapper" class="content">
 
-            <section id="main" class="side-left">
+            <section id="main">
                 <header class="details-buy">
-                    <h1>Private Buy</h1>
+                    <h1>MANUFACTURE A</h1>
                     <nav class="breadcumbs">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Private Buy</a></li>
-                            <li><a href="#">Manufacture A</a></li>
+                        <ul class="content">
+                            <li><a href="#">Home</a> > </li>
+                            <li><a href="#"> Private Buy</a> > </li>
+                            <li><a href="#"> Manufacture A</a></li>
                         </ul>
                     </nav>
                 </header>
 
                 <article id="slogan-manufacture">
-                    <a href="#" class="link-manufacture"><img src="images/manufacture/branding/" alt=""></a>
+                    <a href="#" class="link-manufacture"><img src="images/photo/nike-attack.jpg" alt="" width="100%"></a>
                 </article>
 
                 <div id="content-product">
-                    <dl>
+                    <dl class="content">
                         <dd itemscope itemtype="http://schema.org/Product">
-                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <div class="name-product absolute-TopLeft">
+                                <span class="price" itemprop="price"><sup>$</sup> 43</span> 
+                                <p itemprop="name">Thin braided cork belt</p>                                                       
+                            </div>
+
                             <figure>
-                               <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/belt.jpg" width="150" height="150">
-                               <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                                <a itemprop="url" href="#braided">
+                                    <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/belt.jpg" width="170" height="170">
+                                    <figcaption>Thin braided cork belt</figcaption>
+                                </a>
                             </figure>
+
+                            <div class="minislide-product">
+                                
+                            </div>
                             
-                            <div class="options-item">
-                                <button class="btn-review">View Review</button>
+                            <div class="options-item absolute-BottomLeft">
                                 <button class="add-cart">Add cart</button>
+                                <button class="btn-review">View Review</button>                                
                             </div>                            
                         </dd>
 
                         <dd itemscope itemtype="http://schema.org/Product">
-                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <div class="name-product absolute-TopLeft">
+                                <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                                <p itemprop="name">The South Shore shoe bag</p>
+                            </div>
+                            
                             <figure>
-                                <img itemprop="image" alt="The South Shore shoe bag" src="images/photo/product/carrier_bag.jpg" width="150" height="150">
-                                <figcaption itemprop="name">The South Shore shoe bag</figcaption>
+                                <a itemprop="url" href="#bag">
+                                    <img itemprop="image" alt="The South Shore shoe bag" src="images/photo/product/carrier_bag.jpg" width="170" height="170">
+                                    <figcaption>The South Shore shoe bag</figcaption>
+                                </a>
                             </figure>                            
 
-                            <div class="options-item">
-                                <button class="btn-review">View Review</button>
+                            <div class="options-item absolute-BottomLeft">
                                 <button class="add-cart">Add cart</button>
+                                <button class="btn-review">View Review</button>                                
                             </div>                            
                         </dd>
 
                         <dd itemscope itemtype="http://schema.org/Product">
-                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
-                            <figure>
-                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/funda_raquetas.jpg" width="150" height="150">
-                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
-                            </figure>
-                            
-                            <div class="options-item">
-                                <button class="btn-review">View Review</button>
-                                <button class="add-cart">Add cart</button>
+                            <div class="name-product absolute-TopLeft">                           
+                                <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                                <p itemprop="name">Thin braided cork belt</p>
                             </div>
-
-                        </dd>
-
-                        <dd itemscope itemtype="http://schema.org/Product">
-                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
                             <figure>
-                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/raquetas_pinpong.jpg" width="150" height="150">
-                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                                <a itemprop="url" href="#braided">
+                                    <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/funda_raquetas.jpg" width="170" height="170">
+                                    <figcaption>Thin braided cork belt</figcaption>
+                                </a>
                             </figure>
                             
-                            <div class="options-item">
-                                <button class="btn-review">View Review</button>
+                            <div class="options-item absolute-BottomLeft">
                                 <button class="add-cart">Add cart</button>
+                                <button class="btn-review">View Review</button>                                
                             </div>
                         </dd>
 
                         <dd itemscope itemtype="http://schema.org/Product">
-                            <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                            <div class="name-product absolute-TopLeft">
+                                <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                                <p itemprop="name">Thin braided cork belt</p>
+                            </div>
+
                             <figure>
-                                <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/wallet.jpg" width="150" height="150">
-                                <figcaption itemprop="name">Thin braided cork belt</figcaption>
+                                <a itemprop="url" href="#braided">
+                                    <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/raquetas_pinpong.jpg" width="170" height="170">
+                                    <figcaption>Thin braided cork belt</figcaption>
+                                </a>
                             </figure>
                             
-                            <div class="options-item">
-                                <button class="btn-review">View Review</button>
+                            <div class="options-item absolute-BottomLeft">
                                 <button class="add-cart">Add cart</button>
+                                <button class="btn-review">View Review</button>                                
+                            </div>
+                        </dd>
+
+                        <dd itemscope itemtype="http://schema.org/Product">
+                            <div class="name-product absolute-TopLeft">
+                                <span class="price" itemprop="price"><sup>$</sup> 43</span>
+                                <p itemprop="name">Leather folio</p>
+                            </div>
+                            <figure>
+                                <a href="#folio">
+                                    <img itemprop="image" alt="Leather folio" src="images/photo/product/wallet.jpg" width="170" height="170">
+                                    <figcaption>Leather folio</figcaption>
+                                </a>
+                            </figure>
+                            
+                            <div class="options-item absolute-BottomLeft">
+                                <button class="add-cart">Add cart</button>
+                                <button class="btn-review">View Review</button>                                
                             </div>
                         </dd>
                    </dl>                   
                 </div>
-            </section><!-- end #main --> 
+            </section><!-- end #main -->
 
-            <aside id="container-panel" class="side-right">
+            <aside id="container-panel" class="absolute-TopRight">
                 <header class="header-container">
-                    <h2>Private Buy</h2>
+                    <h2>Private Buy: <sup>$</sup><span>143</span></h2>
                 </header>
 
                 <div id="container-canvas">
-                    <ol class="container-list">
+                    <ol class="container-list content">
                         <li>
                             <a>
                                 <img src="images/photo/product/thumb/thumb_1.jpg">
@@ -253,26 +290,46 @@
                                 <span class="title-product">The South Shore shoe bag</span>
                             </a>
                         </li>
-                   </ol>                   
+                    </ol>
+
+                    <div id="measure-container">
+                        <p><span>Min</span>25</p>
+                        <div class="circle-measure">95%</div>
+                        <p><span>Max</span>75</p>
+                    </div>
+
                 </div>
+
+                <div id="trash-bin">
+                    <ul class="content">
+                        <li>trash1</li>
+                        <li>trash2</li>
+                        <li>trash3</li>
+                    </ul>
+                </div>
+
+                <button id="save-list">Save List</button>
             </aside><!-- end #container-panel --> 
         </div><!-- end #wrapper --> 
 
         <footer id="colophon">
-            <address>
-                Ave. Larco #152 - Miraflores Lima
-            </address>
+            <div class="content-footer">
+                <address>
+                    Ave. Larco #152 - Miraflores Lima
+                </address>
 
-            <cite>&copy; All copyright reserved - Royal pioneers 2012 </cite>
+                <cite>&copy; All copyright reserved - Royal pioneers 2012 </cite>
+            </div>                
         </footer><!-- end #colophon -->    
       
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="js/vendor"></script>
         <script src="js/main.js"></script>
 
         <script type="text/javascript">
-
+        //Code Javascript here...
         </script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

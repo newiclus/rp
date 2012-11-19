@@ -304,9 +304,12 @@ ul {
 
 nav ul,
 nav ol {
+    padding: 0;
     list-style: none;
     list-style-image: none;
 }
+
+nav ul a {text-decoration: none;}
 
 /* ==========================================================================
    Embedded content

@@ -1,0 +1,21 @@
+/*
+Project Name: Royal Pioneers
+Description: IE CSS to bugs
+Version: 1.0
+Tags: Fuck...! IE
+*/
+
+/* ==========================================================================
+   Base styles
+   ========================================================================== */
+
+/* A better looking default horizontal rule */
+#config-buy {background-color: rgb(86,103,116);}
+
+#modality-buy {
+    overflow: hidden;
+    position: relative;
+    width: 100%;}
+
+#modality-buy dd {
+    float: left;}

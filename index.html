@@ -170,7 +170,9 @@
 
                 <div id="content-product">
                     <dl class="content">
-                        <dd itemscope itemtype="http://schema.org/Product">
+                        <dd class="hidden"></dd><!-- #invisible -->
+
+                        <dd class="product-item" itemscope itemtype="http://schema.org/Product">
                             <div class="name-product absolute-TopLeft">
                                 <span class="price" itemprop="price"><sup>$</sup> 43</span> 
                                 <p itemprop="name">Thin braided cork belt</p>                                                       
@@ -183,20 +185,54 @@
                                 </a>
                             </figure>
 
-                            <div class="minislide-product">
-                                
+                            <div class="minislide-product absolute-TopLeft">
+                                <ul>
+                                    <li>
+                                        <p>%: 3%</p>
+                                        <p>OM: 25</p>
+                                    </li>
+
+                                    <li>
+                                        <p>Time: 3D:5H:33M</p>
+                                        <p>* * *</p>
+                                    </li>
+
+                                    <li>
+                                        <span>Madera</span> <span>Deco</span>
+                                        <span>Utensilio</span> <span>Mueble</span>
+                                    </li>
+                                </ul>
                             </div>
                             
                             <div class="options-item absolute-BottomLeft">
                                 <button class="add-cart">Add cart</button>
                                 <button class="btn-review">View Review</button>                                
                             </div>                            
-                        </dd>
+                        </dd><!-- end *Product -->
 
-                        <dd itemscope itemtype="http://schema.org/Product">
+                        <dd class="product-item" itemscope itemtype="http://schema.org/Product">
                             <div class="name-product absolute-TopLeft">
                                 <span class="price" itemprop="price"><sup>$</sup> 43</span>
                                 <p itemprop="name">The South Shore shoe bag</p>
+                            </div>
+
+                            <div class="minislide-product absolute-TopLeft">
+                                <ul>
+                                    <li>
+                                        <p>%: 3%</p>
+                                        <p>OM: 25</p>
+                                    </li>
+
+                                    <li>
+                                        <p>Time: 3D:5H:33M</p>
+                                        <p>* * *</p>
+                                    </li>
+
+                                    <li>
+                                        <span>Madera</span> <span>Deco</span>
+                                        <span>Utensilio</span> <span>Mueble</span>
+                                    </li>
+                                </ul>
                             </div>
                             
                             <figure>
@@ -210,13 +246,33 @@
                                 <button class="add-cart">Add cart</button>
                                 <button class="btn-review">View Review</button>                                
                             </div>                            
-                        </dd>
+                        </dd><!-- end *Product -->
 
-                        <dd itemscope itemtype="http://schema.org/Product">
+                        <dd class="product-item" itemscope itemtype="http://schema.org/Product">
                             <div class="name-product absolute-TopLeft">                           
                                 <span class="price" itemprop="price"><sup>$</sup> 43</span>
                                 <p itemprop="name">Thin braided cork belt</p>
                             </div>
+
+                            <div class="minislide-product absolute-TopLeft">
+                                <ul>
+                                    <li>
+                                        <p>%: 3%</p>
+                                        <p>OM: 25</p>
+                                    </li>
+
+                                    <li>
+                                        <p>Time: 3D:5H:33M</p>
+                                        <p>* * *</p>
+                                    </li>
+
+                                    <li>
+                                        <span>Madera</span> <span>Deco</span>
+                                        <span>Utensilio</span> <span>Mueble</span>
+                                    </li>
+                                </ul>
+                            </div>
+
                             <figure>
                                 <a itemprop="url" href="#braided">
                                     <img itemprop="image" alt="Thin braided cork belt" src="images/photo/product/funda_raquetas.jpg" width="170" height="170">
@@ -228,12 +284,31 @@
                                 <button class="add-cart">Add cart</button>
                                 <button class="btn-review">View Review</button>                                
                             </div>
-                        </dd>
+                        </dd><!-- end *Product -->
 
-                        <dd itemscope itemtype="http://schema.org/Product">
+                        <dd class="product-item" itemscope itemtype="http://schema.org/Product">
                             <div class="name-product absolute-TopLeft">
                                 <span class="price" itemprop="price"><sup>$</sup> 43</span>
                                 <p itemprop="name">Thin braided cork belt</p>
+                            </div>
+
+                            <div class="minislide-product absolute-TopLeft">
+                                <ul>
+                                    <li>
+                                        <p>%: 3%</p>
+                                        <p>OM: 25</p>
+                                    </li>
+
+                                    <li>
+                                        <p>Time: 3D:5H:33M</p>
+                                        <p>* * *</p>
+                                    </li>
+
+                                    <li>
+                                        <span>Madera</span> <span>Deco</span>
+                                        <span>Utensilio</span> <span>Mueble</span>
+                                    </li>
+                                </ul>
                             </div>
 
                             <figure>
@@ -247,13 +322,61 @@
                                 <button class="add-cart">Add cart</button>
                                 <button class="btn-review">View Review</button>                                
                             </div>
-                        </dd>
+                        </dd><!-- end *Product -->
 
-                        <dd itemscope itemtype="http://schema.org/Product">
+                        <dd class="preview-product hidden">
+                            <span class="arrow-here"> ^ </span>
+                            <button id="preview-close" class="absolute-TopRight">X close</button>
+                            
+                            <div class="content">
+                                <div class="side-left img-preview">
+                                    <img alt="Thin braided cork belt" src="images/photo/product/raquetas_pinpong.jpg" width="220" height="220">
+                                </div>
+
+                                <div class="side-left content-preview">
+                                    <h3>Thin braided cork belt</h3>
+                                    <div class="text-preview">
+                                        <p class="preview-price absolute-TopRight"><sup>$</sup>43</p>
+                                        <p>
+                                            Blending rustic and modern, these stoneware cups are hand thrown in the artist's studio in rural Virginia.<br><br>
+                                            Each is finished with a subtle, satiny glaze.<br>
+                                            Set of four. 4.25" tall<br>
+                                            Food, microwave, and dishwasher safe.<br>
+                                            As this item is made to order, please allow up to one week before shipping.
+                                        </p> 
+                                    </div>
+
+                                    <a class="btn-moreDetails" href="#product">More Details [+]</a>
+                                </div> 
+
+                            </div>
+                        </dd><!-- end .preview-product -->
+
+                        <dd class="product-item" itemscope itemtype="http://schema.org/Product">
                             <div class="name-product absolute-TopLeft">
                                 <span class="price" itemprop="price"><sup>$</sup> 43</span>
                                 <p itemprop="name">Leather folio</p>
                             </div>
+
+                            <div class="minislide-product absolute-TopLeft">
+                                <ul>
+                                    <li>
+                                        <p>%: 3%</p>
+                                        <p>OM: 25</p>
+                                    </li>
+
+                                    <li>
+                                        <p>Time: 3D:5H:33M</p>
+                                        <p>* * *</p>
+                                    </li>
+
+                                    <li>
+                                        <span>Madera</span> <span>Deco</span>
+                                        <span>Utensilio</span> <span>Mueble</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
                             <figure>
                                 <a href="#folio">
                                     <img itemprop="image" alt="Leather folio" src="images/photo/product/wallet.jpg" width="170" height="170">
@@ -265,7 +388,7 @@
                                 <button class="add-cart">Add cart</button>
                                 <button class="btn-review">View Review</button>                                
                             </div>
-                        </dd>
+                        </dd><!-- end *Product -->
                    </dl>                   
                 </div>
             </section><!-- end #main -->

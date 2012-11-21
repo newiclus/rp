@@ -363,14 +363,63 @@ textarea {resize: vertical;}
         float: left;}
 
 
+.minislide-product {
+    display: none;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    z-index: 5;}
+
+    .minislide-product ul {
+        list-style: none;
+        margin: 0;
+        padding:0;}
+
+    .minislide-product ul li {        
+        float: left;}
+
+    .minislide-product ul li p {
+        margin: 0;
+        padding:0;}
+
+
 .options-item {
     background-color: rgba(200,200,200,0.7);
     text-align: right;
     width: 100%;
     z-index: 10;}
 
-.options-item button {
-    font-size: 0.75em;}
+    .options-item button {
+        font-size: 0.75em;}
+
+
+.preview-product {
+    border: #5C5C5C solid 1px;
+    width: 95%;
+    padding: 20px 0;
+    position: relative;}
+
+    .preview-product #preview-close {
+        border: none;}
+
+    .preview-product .arrow-here {    
+        display: inline-block;
+        position: absolute;
+        top: 0;}
+
+    .preview-product .content-preview {
+        position: relative;
+        width: 50%;}
+
+    .preview-product .img-preview {
+        text-align: center;
+        width: 40%;}
+
+    .preview-product .btn-moreDetails {
+        background-color: #CCC;
+        color: #555;
+        display: inline-block;
+        padding: 10px;}
 
 
 

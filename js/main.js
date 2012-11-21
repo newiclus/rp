@@ -3,6 +3,23 @@
    RP namespace
 */
 
+var storage, 
+    session;
+//var dataLang = {};
+//localStorage.clear();
+//sessionStorage.clear();
+
+//Comprobar si el navegador soporta WebStorage
+try {
+    if (localStorage.getItem && sessionStorage.getItem) {
+        storage = localStorage;
+        session = sessionStorage;
+    }
+} catch(e) {
+    storage = {};
+    session = {};
+}
+
 
 RP = {
     common : {
@@ -49,33 +66,6 @@ RP = {
 
         finalize : function() {
             //finalize
-        },
-
-        config : {
-            prop : "my value",
-            constant : "42"
-        }
-    },
-
-    mapping : {
-        init : function() {
-            //create a map
-        },
-
-        geolocate : function() {
-            //geolocation is cool            
-        },
-
-        geocode : function() {
-            //look up an address or landmark
-        },
-
-        drawPolylines : function(){
-            //draw some lines on a map
-        },
-
-        placeMarker : function(){
-            //place markers on the map
         }
     },
 
@@ -107,25 +97,70 @@ RP = {
     //Modality Buy
     buy : {
         init: function() {
+            //estado de capa del Preview = cerrada
+            session.setItem('boxOpen','false');
 
+            //Mostrar detalles de item-productos al hacer un hover
             $('#content-product dl dd').hover(
                 function() {
                     $('.name-product', this).fadeIn();
                     $('.options-item', this).fadeIn();
+                    $('.minislide-product', this).fadeIn();
                 },
                 function() {
                     $('.name-product', this).fadeOut();
                     $('.options-item', this).fadeOut();
+                    $('.minislide-product', this).fadeOut();
                 }
             );
+
+            //Subir Box Preview
+            var upBox  = function() {
+                session.setItem('boxOpen','false');
+                $('.preview-product').slideUp();                
+            };
+
+            //Bajar Box Preview
+            var downBox = function() {
+                session.setItem('boxOpen','true');
+                $('.preview-product').slideDown();                
+            };
+
+            //Comprobar Box Preview abiertas y cerrar antes de abrir otra
+            var closeSibling = function() {
+                $('button.marcado').trigger('click');
+                var timeoutID = window.setTimeout(downBox, 600);
+                              
+            };
+            
+            //Abrir/Cerrar Preview de lista de Productos
+            $('.product-item .btn-review').toggle(
+                function() {
+                    if (session.boxOpen === 'true') {
+                        closeSibling();
+                        $(this).addClass('marcado');
+                    } else {
+                        downBox();
+                        $(this).addClass('marcado');
+                    }
+                },
+
+                function() {
+                    upBox();
+                    $(this).removeClass('marcado');
+                }
+            );
+
+            //Cerrar Preview
+            $('#preview-close').on('click', function() {
+                $('button.marcado').trigger('click');
+            });
         },
 
         private: function() {
-
         },
 
         group: function() {
-
         }
 
     }

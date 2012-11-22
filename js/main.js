@@ -43,14 +43,10 @@ RP = {
             };
             showSearch();
                 
-        },
-
-        finalize : function() {
-            //finalize
         }
     },
 
-    lightbox : {
+    /*lightbox : {
         init : function() {
 
             require(['vendor/lightbox'], function() {//Requiero de la libreria lightbox
@@ -67,7 +63,7 @@ RP = {
         finalize : function() {
             //finalize
         }
-    },
+    },*/
 
     //Consulta al API del clima de Yahoo Wheater
     liveWeather : {
@@ -114,35 +110,81 @@ RP = {
                 }
             );
 
+            //Constructor del preview del producto
+            var buildPreview = function(iq, title, description, url, img, price) {
+                this.iq = iq;
+                this.title = title;
+                this.description = description;
+                this.url = url;
+                this.img = img;
+                this.price = price;
+            };
+
+            //Metodo para construir esqueleto del preview
+            buildPreview.prototype.htmlBuild = function() {
+                var arrow = '<span class="arrow-here"> ^ </span>',
+                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
+                    img_preview = '<div class="side-left img-preview"><img alt="'+this.title+'" src="'+this.img+'" width="220" height="220"></div>',
+                    text_preview = '<div class="side-left content-preview"><h3>'+this.title+'</h3><div class="text-preview"><p class="preview-price absolute-TopRight">'+this.price+'</p><p>'+this.description+'</p></div><a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a></div>',
+                    data = img_preview + text_preview;
+
+                $('#content-product dl dd:eq('+this.iq+')').after('<dd id="preview-product" class="preview-product hidden">'+arrow+btnClose+'<div class="content">'+data+'</div> </dd>'); 
+            };
+
             //Subir Box Preview
             var upBox  = function() {
                 session.setItem('boxOpen','false');
-                $('.preview-product').slideUp();                
+                $('.preview-product').slideUp('normal', function() {
+                    $('#preview-product').remove();
+                });                           
             };
 
             //Bajar Box Preview
             var downBox = function() {
-                session.setItem('boxOpen','true');
+                session.setItem('boxOpen','true');                
+                Cajita.htmlBuild();         
                 $('.preview-product').slideDown();                
             };
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
             var closeSibling = function() {
-                $('button.marcado').trigger('click');
-                var timeoutID = window.setTimeout(downBox, 600);
-                              
+                $('button.marcado').trigger('click');                
+                var timeoutID = window.setTimeout(downBox, 700);                              
             };
             
             //Abrir/Cerrar Preview de lista de Productos
             $('.product-item .btn-review').toggle(
                 function() {
+                    var title = $(this).parent().parent().children('h2').text(),
+                        patherId = $(this).parent().parent().index(), //Capturar el ID del padre
+                        column = 4,                        
+                        nRow = (Math.ceil(patherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
+                        liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items
+                        currentId; //capturar ID donde posteriormente se agregara la data
+
+                    //Comprobar la ubicacion del BOX PREVIEW
+                    if (liCount < column) { //Si el número de item es menor que la fila
+                        currentId = liCount;
+                    } else if (patherId === liCount) { //Si este es el ultimo LI
+                        currentId = (session.boxOpen === 'true') ?  patherId-1 : patherId; //Pero si hay un Box Preview abierto
+                    } else {
+                        currentId = nRow;
+                    }
+
+                    Cajita = null; //Eliminar Objeto anterior
+
+                    //Crear Objeto nuevo
+                    Cajita = new buildPreview(currentId, title, 'Este es una prueba', '#main', 'images/test.jpg', '45');
+
+                    //Abrir BOX Preview
                     if (session.boxOpen === 'true') {
                         closeSibling();
                         $(this).addClass('marcado');
+
                     } else {
-                        downBox();
+                        downBox();                     
                         $(this).addClass('marcado');
-                    }
+                    }                   
                 },
 
                 function() {
@@ -152,7 +194,7 @@ RP = {
             );
 
             //Cerrar Preview
-            $('#preview-close').on('click', function() {
+            $('#preview-close').live('click', function() {
                 $('button.marcado').trigger('click');
             });
         },
@@ -162,10 +204,10 @@ RP = {
 
         group: function() {
         }
-
     }
 };
 
+//Ejecutador de metodos segun vista
 UTIL = {
     exec: function(controller, action) {
         var ns = RP,

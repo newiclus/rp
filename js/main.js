@@ -148,8 +148,9 @@ RP = {
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
             var closeSibling = function() {
-                $('button.marcado').trigger('click');                
-                var timeoutID = window.setTimeout(downBox, 700);                              
+                $('button.marcado').trigger('click');
+                               
+                var timeoutID = window.setTimeout(downBox, 700);                             
             };
             
             //Abrir/Cerrar Preview de lista de Productos

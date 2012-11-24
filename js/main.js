@@ -97,7 +97,7 @@ RP = {
             session.setItem('boxOpen','false');
 
             //Mostrar detalles de item-productos al hacer un hover
-            $('#content-product dl dd').hover(
+            $('.content-product-item li').hover(
                 function() {
                     $('.name-product', this).fadeIn();
                     $('.options-item', this).fadeIn();
@@ -121,6 +121,11 @@ RP = {
             };
 
             //Metodo para construir esqueleto del preview
+            buildPreview.prototype.contentBuild = function() {
+                $('#content-product dl dd:eq('+this.iq+')').after('<dd id="preview-product" class="preview-product hidden"><ul></ul></dd>');
+            }
+
+            //
             buildPreview.prototype.htmlBuild = function() {
                 var arrow = '<span class="arrow-here"> ^ </span>',
                     btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
@@ -128,8 +133,8 @@ RP = {
                     text_preview = '<div class="side-left content-preview"><h3>'+this.title+'</h3><div class="text-preview"><p class="preview-price absolute-TopRight">'+this.price+'</p><p>'+this.description+'</p></div><a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a></div>',
                     data = img_preview + text_preview;
 
-                $('#content-product dl dd:eq('+this.iq+')').after('<dd id="preview-product" class="preview-product hidden">'+arrow+btnClose+'<div class="content">'+data+'</div> </dd>'); 
-            };
+                $('#preview-product ul').append(arrow+btnClose+'<div class="content">'+data+'</div>'); 
+            };            
 
             //Subir Box Preview
             var upBox  = function() {
@@ -141,7 +146,8 @@ RP = {
 
             //Bajar Box Preview
             var downBox = function() {
-                session.setItem('boxOpen','true');                
+                session.setItem('boxOpen','true');
+                Cajita.contentBuild();               
                 Cajita.htmlBuild();         
                 $('.preview-product').slideDown();                
             };
@@ -149,34 +155,50 @@ RP = {
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
             var closeSibling = function() {
                 $('button.marcado').trigger('click');
-                               
-                var timeoutID = window.setTimeout(downBox, 700);                             
+                var timeoutID = window.setTimeout(downBox, 700);             
             };
             
             //Abrir/Cerrar Preview de lista de Productos
             $('.product-item .btn-review').toggle(
                 function() {
-                    var title = $(this).parent().parent().children('h2').text(),
-                        patherId = $(this).parent().parent().index(), //Capturar el ID del padre
+                    var title = $(this).parents('.product-item').find('h2').text(),
+                        father = $(this).parents('.content-product-item').children('li'),
+                        child = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
+                        
+                        //Variables de Posicion de BOX PREVIEW
+                        fatherId = $(this).parents('.product-item').index(), //Capturar el ID del ancestro (DD)
                         column = 4,                        
-                        nRow = (Math.ceil(patherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
-                        liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items
+                        nRow = (Math.ceil(fatherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
+                        liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items                        
                         currentId; //capturar ID donde posteriormente se agregara la data
 
                     //Comprobar la ubicacion del BOX PREVIEW
-                    if (liCount < column) { //Si el número de item es menor que la fila
+                    if (liCount < column) {//Si el número de item es menor que la fila
                         currentId = liCount;
-                    } else if (patherId === liCount) { //Si este es el ultimo LI
-                        currentId = (session.boxOpen === 'true') ?  patherId-1 : patherId; //Pero si hay un Box Preview abierto
+                    } else if (fatherId === liCount) {//Si este es el ultimo LI
+                        currentId = (session.boxOpen === 'true') ?  fatherId-1 : fatherId; //Pero si hay un Box Preview abierto
                     } else {
                         currentId = nRow;
                     }
 
-                    Cajita = null; //Eliminar Objeto anterior
+
+                    if (child > 1) {
+                        father.each(function(i) {
+                            var titulo = $('h2', this).text();
+                            //alert(titulo);
+                        }); 
+                    }
+                    
+                    
+                                       
+
+                    
+
+                    //Cajita = null; //Eliminar Objeto anterior
 
                     //Crear Objeto nuevo
-                    Cajita = new buildPreview(currentId, title, 'Este es una prueba', '#main', 'images/test.jpg', '45');
-
+                    //Cajita = new buildPreview(currentId, title, 'Este es una prueba', '#main', 'images/test.jpg', '45');
+                        /*
                     //Abrir BOX Preview
                     if (session.boxOpen === 'true') {
                         closeSibling();
@@ -185,7 +207,7 @@ RP = {
                     } else {
                         downBox();                     
                         $(this).addClass('marcado');
-                    }                   
+                    } */            
                 },
 
                 function() {

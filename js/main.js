@@ -5,7 +5,6 @@
 
 var storage, 
     session;
-//var dataLang = {};
 //localStorage.clear();
 //sessionStorage.clear();
 
@@ -94,7 +93,12 @@ RP = {
     buy : {
         init: function() {
             //estado de capa del Preview = cerrada
-            session.setItem('boxOpen','false');
+            session.setItem('boxOpen','false');            
+
+            //Activar Plugin Slider RP para desplazamiento
+            require(['vendor/slideRP'], function() {
+                $('.product-item').slideRP();
+            });        
 
             //Mostrar detalles de item-productos al hacer un hover
             $('.content-product-item li').hover(
@@ -120,42 +124,42 @@ RP = {
                 this.price = price;
             };
 
-            //Metodo para construir esqueleto del preview
-            buildPreview.prototype.contentBuild = function() {
-                $('#content-product dl dd:eq('+this.iq+')').after('<dd id="preview-product" class="preview-product hidden"><ul></ul></dd>');
-            }
-
-            //
+            
+            //Metodo para crear el preview de cada producto
             buildPreview.prototype.htmlBuild = function() {
-                var arrow = '<span class="arrow-here"> ^ </span>',
-                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
-                    img_preview = '<div class="side-left img-preview"><img alt="'+this.title+'" src="'+this.img+'" width="220" height="220"></div>',
+                var img_preview = '<div class="side-left img-preview"><img alt="'+this.title+'" src="'+this.img+'" width="220" height="220"></div>',
                     text_preview = '<div class="side-left content-preview"><h3>'+this.title+'</h3><div class="text-preview"><p class="preview-price absolute-TopRight">'+this.price+'</p><p>'+this.description+'</p></div><a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a></div>',
                     data = img_preview + text_preview;
 
-                $('#preview-product ul').append(arrow+btnClose+'<div class="content">'+data+'</div>'); 
+                $('#preview-product ul').append('<li><div class="content">'+data+'</div></li>'); 
             };            
 
             //Subir Box Preview
             var upBox  = function() {
                 session.setItem('boxOpen','false');
-                $('.preview-product').slideUp('normal', function() {
+                $('#preview-product').slideUp('normal', function() {
                     $('#preview-product').remove();
                 });                           
             };
 
             //Bajar Box Preview
             var downBox = function() {
-                session.setItem('boxOpen','true');
-                Cajita.contentBuild();               
-                Cajita.htmlBuild();         
+                session.setItem('boxOpen','true');         
                 $('.preview-product').slideDown();                
             };
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
             var closeSibling = function() {
-                $('button.marcado').trigger('click');
-                var timeoutID = window.setTimeout(downBox, 700);             
+                $('button.marcado').trigger('click');           
+            };
+
+            //Construir esqueleto del preview
+            var contentBuild = function(eq, slide) {
+                var arrow = '<span class="arrow-here"> ^ </span>',
+                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
+                    btnUp = '<button class="btn-Top">Up</button>',
+                    btnDown = '<button class="btn-Down">Down</button>';
+                $('#content-product dl dd:eq('+eq+')').after('<dd id="preview-product" class="preview-product hidden" data-id="'+slide+'">'+arrow+btnClose+btnUp+'<ul></ul>'+btnDown+'</dd>');
             };
             
             //Abrir/Cerrar Preview de lista de Productos
@@ -164,6 +168,8 @@ RP = {
                     var title = $(this).parents('.product-item').find('h2').text(),
                         father = $(this).parents('.content-product-item').children('li'),
                         child = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
+                        slideId = parseInt($(this).parents('.li-item').attr('data-slide')), //Numero de Slide
+                        slide = $(this).parents('.product-item').attr('data-id'), //Capturar el data-id
                         
                         //Variables de Posicion de BOX PREVIEW
                         fatherId = $(this).parents('.product-item').index(), //Capturar el ID del ancestro (DD)
@@ -181,33 +187,46 @@ RP = {
                         currentId = nRow;
                     }
 
+                    Cajita = null; //Eliminar Objeto anterior                    
+                    
+                    //Crear un preview
+                    var createPrev = function() {
+                        contentBuild(currentId, slide);
 
-                    if (child > 1) {
                         father.each(function(i) {
-                            var titulo = $('h2', this).text();
-                            //alert(titulo);
-                        }); 
-                    }
-                    
-                    
-                                       
+                            var title = $('h2', this).text(),                                
+                                description = 'Esta es una prueba',
+                                url = '#main',
+                                image = 'images/test.jpg',                                
+                                price = $('.price', this).html();
 
-                    
+                            //Crear un nuevo Objeto
+                            Cajita = new buildPreview(currentId, title, description, url, image, price);
 
-                    //Cajita = null; //Eliminar Objeto anterior
+                            //Insertar data en BOX PREVIEW             
+                            Cajita.htmlBuild();
+                        });
 
-                    //Crear Objeto nuevo
-                    //Cajita = new buildPreview(currentId, title, 'Este es una prueba', '#main', 'images/test.jpg', '45');
-                        /*
+                        if (child > 1) {
+                            $('#preview-product').slideRP({
+                                simulator: 1,
+                                startSlide: slideId
+                            });
+                        }
+
+                        downBox();
+                    };                                       
+                                        
                     //Abrir BOX Preview
                     if (session.boxOpen === 'true') {
                         closeSibling();
+                        var timeoutID = window.setTimeout(createPrev, 700); 
                         $(this).addClass('marcado');
 
                     } else {
-                        downBox();                     
+                        createPrev();                     
                         $(this).addClass('marcado');
-                    } */            
+                    }            
                 },
 
                 function() {
@@ -220,6 +239,10 @@ RP = {
             $('#preview-close').live('click', function() {
                 $('button.marcado').trigger('click');
             });
+
+            //Desplazamiento            
+            //$('#preview-product').slideRP({speed: 700});
+            
         },
 
         private: function() {

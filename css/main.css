@@ -331,6 +331,10 @@ textarea {resize: vertical;}
     #content-product dd .name-product,
     #content-product dd .options-item {display: none;}
 
+    #content-product dd .content-slider {
+        overflow: hidden;
+        width: 100%;}
+
 
 .breadcumbs ul li {
     font:300 0.8em sans-serif; 
@@ -347,6 +351,9 @@ textarea {resize: vertical;}
     margin: 0;
     overflow: hidden;
     padding:0}
+
+    .content-product-item li {
+        position: relative;}
 
 
 .details-buy h1 {
@@ -400,11 +407,27 @@ textarea {resize: vertical;}
         font-size: 0.75em;}
 
 
+.product-item .btn-Top, .preview-product .btn-Top,
+.product-item .btn-Down, .preview-product .btn-Down {
+    cursor: pointer;
+    visibility: hidden;}
+
+
 .preview-product {
     border: #5C5C5C solid 1px;
     width: 95%;
     padding: 20px 0;
     position: relative;}
+
+    .preview-product ul, .preview-product li {
+        height: 250px;
+        margin: 0;
+        padding: 0;
+        list-style: none;}
+
+    .preview-product ul {        
+        overflow: hidden;
+        width: 100%;}
 
     .preview-product #preview-close {
         border: none;}

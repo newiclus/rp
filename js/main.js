@@ -23,7 +23,6 @@ try {
 RP = {
     common : {
         init : function() {
-
             //Button config for Modality Buy
             $('#btn-config').on('click', function() {
                 $('#config-buy').slideToggle(350);
@@ -44,25 +43,7 @@ RP = {
                 
         }
     },
-
-    /*lightbox : {
-        init : function() {
-
-            require(['vendor/lightbox'], function() {//Requiero de la libreria lightbox
-                $('.pic a').lightBox({      
-                    imageLoading: 'js/lightbox/images/loading.gif',
-                    imageBtnClose: 'js/lightbox/images/close.gif',
-                    imageBtnPrev: 'js/lightbox/images/prev.gif',
-                    imageBtnNext: 'js/lightbox/images/next.gif'
-                });
-            }); 
-                
-        },
-
-        finalize : function() {
-            //finalize
-        }
-    },*/
+    
 
     //Consulta al API del clima de Yahoo Wheater
     liveWeather : {
@@ -157,8 +138,8 @@ RP = {
             var contentBuild = function(eq, slide) {
                 var arrow = '<span class="arrow-here"> ^ </span>',
                     btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
-                    btnUp = '<button class="btn-Top">Up</button>',
-                    btnDown = '<button class="btn-Down">Down</button>';
+                    btnUp = '<button class="simulator-Top">Up</button>',
+                    btnDown = '<button class="simulator-Down">Down</button>';
                 $('#content-product dl dd:eq('+eq+')').after('<dd id="preview-product" class="preview-product hidden" data-id="'+slide+'">'+arrow+btnClose+btnUp+'<ul></ul>'+btnDown+'</dd>');
             };
             
@@ -209,7 +190,6 @@ RP = {
 
                         if (child > 1) {
                             $('#preview-product').slideRP({
-                                simulator: 1,
                                 startSlide: slideId
                             });
                         }
@@ -240,15 +220,82 @@ RP = {
                 $('button.marcado').trigger('click');
             });
 
-            //Desplazamiento            
-            //$('#preview-product').slideRP({speed: 700});
-            
+            //Simulator of btn-Top in BOX-PREVIEW
+            $(".simulator-Top").live("click", function() {
+                fatherId = $(this).parent().attr('data-id');
+                 $('dd[data-id="'+fatherId+'"] button.btn-Top').trigger('click');
+            });
+
+            //Simulator of btn-Down in BOX-PREVIEW
+            $(".simulator-Down").live("click", function() {
+                fatherId = $(this).parent().attr('data-id');
+                 $('dd[data-id="'+fatherId+'"] button.btn-Down').trigger('click');
+            });
+
+            //Invocar
+            RP.container.init();            
         },
 
         private: function() {
         },
 
         group: function() {
+        }
+    },
+
+    //Canvas Container
+    container : {
+        init: function() {
+            //transfer image to cart effect.
+            var imageTransfer = function(image_block,ratio){
+                var productX        = $(image_block).offset().left;
+                var productY        = $(image_block).offset().top;
+                var cartX         = $("#cart_block").offset().left;
+                var cartY         = $("#cart_block").offset().top;
+                var gotoX           = cartX - productX;
+                var gotoY           = cartY - productY;
+
+                if (ratio==0) {
+                    $(image_block)
+                    .clone()
+                    .prependTo('#page')
+                    .css({'position' : 'absolute','z-index':9999,'left':productX,'top':productY})
+                    .animate({ marginLeft: gotoX, marginTop: gotoY}, 1400, function() {
+                        $(this).remove();
+                        });   
+                } else {   
+                    var newImageWidth   = $(image_block).width() * parseFloat(ratio);
+                    var newImageHeight  = $(image_block).height() * parseFloat(ratio);
+                    
+                    $(image_block)
+                    .clone()
+                    .prependTo('#page')
+                    .css({'position' : 'absolute','width': newImageWidth, 'height': newImageHeight,'left':productX,'top':productY,'z-index':9999})
+                    .animate({ marginLeft: gotoX, marginTop: gotoY,width: newImageWidth, height: newImageHeight}, 900, function() {
+                        $(this).remove();
+                        });   
+                    }
+                    
+            };
+
+            //Agregar item al Container
+            var addContainer = function(id) {
+                var li = $('#container-canvas ol #cont_'+id).length;
+                if (li < 1) {
+                    var title = $('#'+id+' .title').text(), //Capturar titulo
+                        url = $('#'+id+' figure a').attr('href'), //capturar URL
+                        img = $('#'+id+' figure img').attr('src'); //capturar imagen
+
+                    $('.fill-preview').addClass('hide');
+                    $('#container-canvas ol').append('<li id="cont_'+id+'"><a href="'+url+'" data-product-id="'+id+'" rel="modal"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');
+                }   
+            };
+
+
+            $('.add-cart').on('click', function() {
+                var it = $(this).parents('.li-item').attr('id');
+                addContainer(it);
+            });
         }
     }
 };
@@ -279,12 +326,8 @@ $(document).on('ready', UTIL.init);
 
 
 
-
-
 //Tutorial
-
 /*
-
 For instance if your code was architected in an object literal such as:
 
 FOO = {
@@ -370,6 +413,4 @@ at the very end of UTIL.loadEvents(). This allows you to keep similar code toget
 but, It's essentially using data-attributes instead of classes to trigger this action.. So..
 
  <body data-controller="users" data-action="show">
-
-
 */

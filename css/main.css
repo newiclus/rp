@@ -407,8 +407,12 @@ textarea {resize: vertical;}
         font-size: 0.75em;}
 
 
-.product-item .btn-Top, .preview-product .btn-Top,
-.product-item .btn-Down, .preview-product .btn-Down {
+.product-item .btn-Top, 
+.preview-product .btn-Top,
+.preview-product .simulator-Top,
+.product-item .btn-Down,
+.preview-product .btn-Down, 
+.preview-product .simulator-Down {
     cursor: pointer;
     visibility: hidden;}
 
@@ -460,13 +464,13 @@ textarea {resize: vertical;}
     border: #777 dashed 2px;
     border-radius: 7px;
     margin: 0 auto;
-    padding: 15px 0 0 15px;
-    width: 80%;}
+    padding: 20px 0 0 20px;
+    width: 77%;}
 
 #container-canvas ol li {
     list-style: none;
     float: left;
-    margin-right: 15px;}
+    margin: 0 20px 20px 0;}
 
 #container-canvas li .title-product {display: none;}
 
@@ -489,6 +493,7 @@ textarea {resize: vertical;}
 #measure-container {
     border: #CCC solid 1px;
     border-radius: 7px;
+    margin-top: 20px;
     text-align: center;}
 
 #measure-container p, #measure-container div {

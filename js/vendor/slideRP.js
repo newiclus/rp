@@ -28,7 +28,6 @@
         var defaults = {
             prevId: 'btn-Top',
             nextId: 'btn-Down',
-            simulator: 0,
             continuous: false,
             controlsFade: true,
             speed: 700,
@@ -45,25 +44,27 @@
             var h = $('ul > li', obj).height();
             var ts = s-1;
             var t = options.startSlide;
-            var simulador = options.simulator;
             
             $('ul > li', obj).each(function(i) {
                 $(this).attr('data-slide', i);
-                $(this).attr('data-height', h);
             });
 
             if (s > 1) {
                 //show arrows                
                 if(t===ts) {
                     $("button.btn-Down",obj).css('visibility', 'hidden');
+                    $("button.simulator-Down",obj).css('visibility', 'hidden');
                 } else {
-                    $("button.btn-Down",obj).css('visibility', 'visible');     
+                    $("button.btn-Down",obj).css('visibility', 'visible');
+                    $("button.simulator-Down",obj).css('visibility', 'visible');     
                 }
 
                 if (t===0) {
                     $("button.btn-Top",obj).css('visibility', 'hidden');
+                    $("button.simulator-Top",obj).css('visibility', 'hidden');
                 } else {
                     $("button.btn-Top",obj).css('visibility', 'visible');
+                    $("button.simulator-Top",obj).css('visibility', 'visible');
                 }
 
                 $("ul", obj).css({'height':s*h, 'margin-top':t*-h});
@@ -129,14 +130,18 @@
                     if (!options.continuous && options.controlsFade) {                    
                         if(t===ts) {
                             $("button.btn-Down",obj).css('visibility', 'hidden');
+                            $("button.simulator-Down",obj).css('visibility', 'hidden');
                         } else {
-                            $("button.btn-Down",obj).css('visibility', 'visible');                  
+                            $("button.btn-Down",obj).css('visibility', 'visible');
+                            $("button.simulator-Down",obj).css('visibility', 'visible');               
                         }
 
                         if(t===0) {
                             $("button.btn-Top",obj).css('visibility', 'hidden');
+                            $("button.simulator-Top",obj).css('visibility', 'hidden');
                         } else {
                             $("button.btn-Top",obj).css('visibility', 'visible');
+                            $("button.simulator-Top",obj).css('visibility', 'visible');
                         }               
                     }
                     
@@ -149,7 +154,9 @@
         
             if(!options.continuous && !options.controlsFade) {                   
                 $("button.btn-Top",obj).css('visibility', 'hidden');
-                $("button.btn-Down",obj).css('visibility', 'hidden');               
+                $("button.simulator-Top",obj).css('visibility', 'hidden');
+                $("button.btn-Down",obj).css('visibility', 'hidden');
+                $("button.simulator-Down",obj).css('visibility', 'hidden');              
             };                          
         });
       

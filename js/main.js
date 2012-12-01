@@ -240,61 +240,74 @@ RP = {
         },
 
         group: function() {
+        },
+
+        //Implementacion del Modal del detalle completo del producto
+        modal: function() {
+            $('.btn-moreDetails').click(function() {
+                $('').fadeOut();
+            });
         }
     },
 
     //Canvas Container
     container : {
         init: function() {
-            //transfer image to cart effect.
-            var imageTransfer = function(image_block,ratio){
-                var productX        = $(image_block).offset().left;
-                var productY        = $(image_block).offset().top;
-                var cartX         = $("#cart_block").offset().left;
-                var cartY         = $("#cart_block").offset().top;
-                var gotoX           = cartX - productX;
-                var gotoY           = cartY - productY;
+            //Transfer image to cart effect.
+            var imageTransfer = function(container_block,image_block,ratio) {
+                var productX = $(image_block).offset().left;
+                var productY = $(image_block).offset().top;
+                var cartX = $(".container-list").offset().left;
+                var cartY = $(".container-list").offset().top;
+                var gotoX = cartX - productX;
+                var gotoY = cartY - productY;
 
                 if (ratio==0) {
                     $(image_block)
                     .clone()
-                    .prependTo('#page')
+                    .addClass('img-transition')
+                    .prependTo(container_block)
                     .css({'position' : 'absolute','z-index':9999,'left':productX,'top':productY})
-                    .animate({ marginLeft: gotoX, marginTop: gotoY}, 1400, function() {
-                        $(this).remove();
-                        });   
-                } else {   
-                    var newImageWidth   = $(image_block).width() * parseFloat(ratio);
-                    var newImageHeight  = $(image_block).height() * parseFloat(ratio);
-                    
-                    $(image_block)
-                    .clone()
-                    .prependTo('#page')
-                    .css({'position' : 'absolute','width': newImageWidth, 'height': newImageHeight,'left':productX,'top':productY,'z-index':9999})
-                    .animate({ marginLeft: gotoX, marginTop: gotoY,width: newImageWidth, height: newImageHeight}, 900, function() {
-                        $(this).remove();
-                        });   
-                    }
-                    
+                    .animate({ marginLeft: gotoX+90, marginTop: gotoY+30, width: '-=7%',  height: '-=14%', opacity: 0.3}, 1200, 'easeInOutBack', function() {
+                        $(this).remove();                        
+                    });                                  
+                }                    
             };
 
-            //Agregar item al Container
+            //Effect change color for a moment in container
+            var addEffect = function() {
+                $('.container-list').addClass('encestar');                
+                var timeEffect = setTimeout(function() {
+                    $('.container-list').removeClass('encestar');
+                }, 300);
+            };
+
+            //Add item to Container.
             var addContainer = function(id) {
                 var li = $('#container-canvas ol #cont_'+id).length;
                 if (li < 1) {
                     var title = $('#'+id+' .title').text(), //Capturar titulo
                         url = $('#'+id+' figure a').attr('href'), //capturar URL
-                        img = $('#'+id+' figure img').attr('src'); //capturar imagen
+                        img = $('#'+id+' figure img').attr('src'), //capturar imagen
+                        img_obj = $('#'+id+' figure img'); //Capturar el objeto imagen
+                        obj = $('body');
 
-                    $('.fill-preview').addClass('hide');
-                    $('#container-canvas ol').append('<li id="cont_'+id+'"><a href="'+url+'" data-product-id="'+id+'" rel="modal"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');
+                    imageTransfer(obj, img_obj, 0);
+                    var timeID = window.setTimeout(function() {
+                        addEffect();                      
+                        $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'" data-product-id="'+id+'" rel="modal"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');                        
+                    }, 1200);                    
                 }   
             };
 
-
-            $('.add-cart').on('click', function() {
-                var it = $(this).parents('.li-item').attr('id');
-                addContainer(it);
+            require(['vendor/jquery.easing'], function() {
+                $('.add-cart').on('click', function(e) {
+                    var it = $(this).parents('.li-item').attr('id');
+                    //pos = $(this).offset();                
+                    //alert('Left: '+e.pageX+' - Top: '+e.pageY);
+                    //alert('Left: '+pos.left+' - Top: '+pos.top);
+                    addContainer(it);
+                });
             });
         }
     }

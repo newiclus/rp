@@ -499,6 +499,21 @@ textarea {resize: vertical;}
 #measure-container p, #measure-container div {
     display: inline-block;}
 
+ol.container-list {
+    /* Transition */
+    -webkit-transition: all 0.30s ease-in-out;
+       -moz-transition: all 0.30s ease-in-out;
+        -ms-transition: all 0.30s ease-in-out;
+            transition: all 0.30s ease-in-out;}
+
+.encestar {
+    background-color: rgba(153,204,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);}
+
+.img-transition {    
+    position: absolute;
+    z-index':9999;}
+
 
 
 /* ==========================================================================

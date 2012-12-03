@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en-us"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
@@ -153,10 +153,12 @@
         <div id="wrapper" class="content">
 
             <section id="main">
-                <section id="modal-producto" class="hidden">
+                <section id="modal-producto" class="hidden absolute-TopLeft">                    
+                    <button id="btn-closeModal">X close</button>
+
                     <div class="content">
-                        <nav>
-                            <ul>
+                        <nav class="tab-list">
+                            <ul class="content">
                                 <li><a href="#tab-slider">Tab 1</a></li>
                                 <li><a href="#tab-description">Tab 2</a></li>
                                 <li><a href="#tab-commentary">Tab 3</a></li>
@@ -165,15 +167,24 @@
 
                         <dl class="content-modal">
                             <dd id="tab-slider" class="content">
-                                <article class="left">Slider</article>
-                                <article class="left">Info</article>    
+                                <article id="slider-modal" class="side-left nivoSlider">
+                                    <img src="images/photo/product/carrier_bag.jpg" alt="Imagen Galeria" width="350" height="350">
+                                </article>
+
+                                <article id="full-info-product" class="side-left">
+                                    <h1>Title Product</h1>
+
+                                    <article>
+                                        <p>Inspired by the Brazilian paddleball beach sport, Frescobol, this set is hand crafted in San Francisco from 100% reclaimed American wood.<br>Set includes two paddles, a classic rubber racquetball, and a natural cotton carrying bag.</p>
+                                    </article>
+                                </article>    
                             </dd>
 
-                            <dd id="tab-description">
+                            <dd id="tab-description" class="hidden">
                                 <p>Text description</p>
                             </dd>
                             
-                            <dd id="tab-commentary">
+                            <dd id="tab-commentary" class="hidden">
                                 <p>Text commentary</p>
                             </dd>
                         </dl>
@@ -473,7 +484,6 @@
                         <div class="circle-measure">95%</div>
                         <p><span>Max</span>75</p>
                     </div>
-
                 </div>
 
                 <div id="trash-bin">

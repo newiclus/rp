@@ -50,7 +50,7 @@ RP = {
         init : function() {
             this.parameters = {};
             this.parameters.op = 'clima';
-            this.parameters.localidad_id = "PEXX0012"; // Lobitos,Piura
+            this.parameters.localidad_id = "PEXX0012"; // Lobitos, Piura
             this.getData(this.parameters);
         },
 
@@ -233,7 +233,10 @@ RP = {
             });
 
             //Invocar
-            RP.container.init();            
+            RP.container.init();
+
+            //Invocar metodo hermano        
+            this.modal();
         },
 
         private: function() {
@@ -244,9 +247,49 @@ RP = {
 
         //Implementacion del Modal del detalle completo del producto
         modal: function() {
-            $('.btn-moreDetails').click(function() {
-                $('').fadeOut();
+            $('#content-product').on('click', '.btn-moreDetails', function(e) {
+                e.preventDefault();
+                $('#preview-close').trigger('click');             
+                $('#modal-producto').fadeIn();
             });
+
+            $('#btn-closeModal').on('click', function() {
+                $('#modal-producto').fadeOut();
+            });
+
+            $('#modal-content').load(url, function() {
+                $('#nivo-slider').nivoSlider(
+                    {
+                        effect: 'fade',
+                        controlNavThumbs: true,
+                        manualAdvance: true,
+                        prevText: '',
+                        nextText: '',
+                        beforeChange: function() {
+                            $('.zoomImg').css('z-index', '0');
+                        },
+                        afterChange: function() {
+                            $('.zoomImg').css('z-index', '10');
+                            $('.zoomImg').attr('src', $('.nivo-main-image').attr('src'));
+                        }
+                    }
+                );
+                
+                //Zoom Start
+                $('#nivo-slider').zoom(
+                    {
+                        url: $('.nivo-main-image').attr('src'),
+                        grab: true
+                    }
+                );
+
+                $('#nivo-slider img').load(function() {
+                    $('.loading').fadeOut();
+                });
+
+            });
+
+            require(['vendor/nivoslider'], function() {});
         }
     },
 

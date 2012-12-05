@@ -153,7 +153,7 @@
         <div id="wrapper" class="content">
 
             <section id="main">
-                <section id="modal-producto" class="hidden absolute-TopLeft">                    
+                <section id="modal-product" class="hidden absolute-TopLeft">
                     <button id="btn-closeModal">X close</button>
 
                     <div class="content">
@@ -165,17 +165,70 @@
                             </ul>
                         </nav>
 
+                        <button id="add-product">+ Add Products</button>
+
                         <dl class="content-modal">
                             <dd id="tab-slider" class="content">
                                 <article id="slider-modal" class="side-left nivoSlider">
-                                    <img src="images/photo/product/carrier_bag.jpg" alt="Imagen Galeria" width="350" height="350">
+                                    <img class="current" src="images/photo/product/carrier_bag.jpg" alt="Imagen Galeria" width="350" height="350">
                                 </article>
 
                                 <article id="full-info-product" class="side-left">
-                                    <h1>Title Product</h1>
+                                    <div id="modal-buyDetail" class="hidden absolute-TopLeft">
+                                        <button id="btn-closeBuy">X</button>
+                                        <ul class="set-quantity">
+                                            <li>
+                                                Quantity
+                                                <input type="text" value="quantity">
+                                            </li>
 
+                                            <li>Range</li>
+
+                                            <li>
+                                                Price USD
+                                                226.00
+                                            </li>
+                                        </ul>
+
+                                        <div id="detail-only-product"></div>
+                                        <button id="btn-done">Done</button>
+                                    </div>
+
+
+                                    <h1>Title Product</h1>
+                                    <span class="price-product"><sup>$</sup>43</span>
+                                    
                                     <article>
                                         <p>Inspired by the Brazilian paddleball beach sport, Frescobol, this set is hand crafted in San Francisco from 100% reclaimed American wood.<br>Set includes two paddles, a classic rubber racquetball, and a natural cotton carrying bag.</p>
+
+                                        <table id="features-product">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Color: </th>
+                                                    <td>Cuero marfil</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <th>Minimal Order:</th>
+                                                    <td>25</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Metros Cúbicos:</th>
+                                                    <td>1 M&deg;</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Mínimo / Total:</th>
+                                                    <td>23/50</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Caducidad:</th>
+                                                    <td>3d:5h:33m</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </article>
                                 </article>    
                             </dd>

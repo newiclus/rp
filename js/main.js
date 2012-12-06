@@ -39,8 +39,7 @@ RP = {
                     $('#search').fadeOut();
                 });
             };
-            showSearch();
-                
+            showSearch();                
         }
     },
     
@@ -114,6 +113,15 @@ RP = {
 
                 $('#preview-product ul').append('<li><div class="content">'+data+'</div></li>'); 
             };            
+            
+            //Funcion para construir esqueleto del preview
+            var contentBuild = function(eq, slide, id) {
+                var arrow = '<span class="arrow-here"> ^ </span>', //Flecha indicadora
+                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>', //Boton cerrar Preview
+                    btnUp = '<button class="simulator-Top">Up</button>', //Boton subir
+                    btnDown = '<button class="simulator-Down">Down</button>'; //Boton bajar
+                $('#content-product dl dd:eq('+eq+')').after('<dd id="preview-product" class="preview-product hidden" data-id-product="'+id+'" data-id="'+slide+'">'+arrow+btnClose+btnUp+'<ul></ul>'+btnDown+'</dd>');
+            };
 
             //Subir Box Preview
             var upBox  = function() {
@@ -131,16 +139,7 @@ RP = {
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
             var closeSibling = function() {
-                $('button.marcado').trigger('click');           
-            };
-
-            //Construir esqueleto del preview
-            var contentBuild = function(eq, slide) {
-                var arrow = '<span class="arrow-here"> ^ </span>',
-                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>',
-                    btnUp = '<button class="simulator-Top">Up</button>',
-                    btnDown = '<button class="simulator-Down">Down</button>';
-                $('#content-product dl dd:eq('+eq+')').after('<dd id="preview-product" class="preview-product hidden" data-id="'+slide+'">'+arrow+btnClose+btnUp+'<ul></ul>'+btnDown+'</dd>');
+                $('button.marcado').trigger('click');
             };
             
             //Abrir/Cerrar Preview de lista de Productos
@@ -150,14 +149,15 @@ RP = {
                         father = $(this).parents('.content-product-item').children('li'),
                         child = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
                         slideId = parseInt($(this).parents('.li-item').attr('data-slide')), //Numero de Slide
-                        slide = $(this).parents('.product-item').attr('data-id'), //Capturar el data-id
+                        nId = $(this).parents('.li-item').attr('id'), //Capturar el ID del producto
+                        slide = $(this).parents('.product-item').attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
                         
                         //Variables de Posicion de BOX PREVIEW
-                        fatherId = $(this).parents('.product-item').index(), //Capturar el ID del ancestro (DD)
+                        fatherId = $(this).parents('.product-item').index(), //Capturar el Index del ancestro (DD)
                         column = 4,                        
                         nRow = (Math.ceil(fatherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
                         liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items                        
-                        currentId; //capturar ID donde posteriormente se agregara la data
+                        currentId; //capturar Index donde posteriormente se agregara la data
 
                     //Comprobar la ubicacion del BOX PREVIEW
                     if (liCount < column) {//Si el número de item es menor que la fila
@@ -172,12 +172,12 @@ RP = {
                     
                     //Crear un preview
                     var createPrev = function() {
-                        contentBuild(currentId, slide);
+                        contentBuild(currentId, slide, nId);
 
                         father.each(function(i) {
                             var title = $('h2', this).text(),                                
                                 description = 'Esta es una prueba',
-                                url = '#main',
+                                url = $('figure a', this).attr('href'),
                                 image = 'images/test.jpg',                                
                                 price = $('.price', this).html();
 
@@ -198,7 +198,7 @@ RP = {
                     };                                       
                                         
                     //Abrir BOX Preview
-                    if (session.boxOpen === 'true') {
+                    if (session.boxOpen === 'true') { //Si hay un BOX PREVIEW abierto
                         closeSibling();
                         var timeoutID = window.setTimeout(createPrev, 700); 
                         $(this).addClass('marcado');
@@ -232,7 +232,7 @@ RP = {
                  $('dd[data-id="'+fatherId+'"] button.btn-Down').trigger('click');
             });
 
-            //Invocar
+            //Invocar al metodo container
             RP.container.init();
 
             //Invocar metodo hermano        
@@ -247,12 +247,38 @@ RP = {
 
         //Implementacion del Modal del detalle completo del producto
         modal: function() {
-            //Open full-detail modal of product
-            $('#content-product').on('click', '.btn-moreDetails', function(e) {
-                e.preventDefault();
-                $('#preview-close').trigger('click');             
-                $('#modal-product').fadeIn();
+            /*requirejs.config({
+                paths: {
+                    'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'
+                }
             });
+            
+            require(['jquery-ui'], function ($) {
+            });
+
+            */
+            //Precargar los estilos del jQuery UI
+            RP.loadCss.init("css/jquery-ui.min.css");
+            
+            require(['vendor/jquery-ui.min'], function() { //Requerir jQuery UI
+
+                //Open full-detail modal of product
+                $('#content-product').on('click', '.btn-moreDetails', function(e) {
+                    e.preventDefault();//Cancelar comportamiento
+
+                    var cId = $(this).parents('#preview-product').attr('data-id-product'),//Capturar el ID
+                        url = $(this).attr('href');//Capturar la URL
+
+                    $('#modal-product').attr({
+                        'data-id-product': cId, //Asignar ID al data-id-product
+                        'rel': url //Asignar la URL   
+                    });
+                    
+                    $('#preview-close').trigger('click');           
+                    $('#modal-product').fadeIn();
+                });
+            });
+                
 
             //close full-detail modal of product
             $('#btn-closeModal').on('click', function() {
@@ -270,11 +296,9 @@ RP = {
             });
 
             $('#btn-done').on('click', function() {
-                var img_obj = $(this).parents('#tab-slider').find('.current'),
-                    obj = $('body');
-
-                //Callback at Effect
-                RP.imageTransfer.init(obj, img_obj, 0, 30);
+                var mid = $(this).parents('#modal-product').attr('data-id-product');
+                //Callback at method
+                RP.addItemContainer.init(mid, 'modal', 30);
             });
 
             /*$('#modal-content').load(url, function() {
@@ -312,47 +336,24 @@ RP = {
         }
     },
 
+
     //Canvas Container
     container : {
-        init: function() {
-            //Effect change color for a moment in container
-            var addEffect = function() {
-                $('.container-list').addClass('encestar');                
-                var timeEffect = setTimeout(function() {
-                    $('.container-list').removeClass('encestar');
-                }, 300);
-            };
-
-            //Add item to Container.
-            var addContainer = function(id) {
-                var li = $('#container-canvas ol #cont_'+id).length;
-                if (li < 1) {
-                    var title = $('#'+id+' .title').text(), //Capturar titulo
-                        url = $('#'+id+' figure a').attr('href'), //capturar URL
-                        img = $('#'+id+' figure img').attr('src'), //capturar imagen
-                        img_obj = $('#'+id+' figure img'); //Capturar el objeto imagen
-                        obj = $('body');
-
-                    RP.imageTransfer.init(obj, img_obj, 0, 10);
-                    var timeID = window.setTimeout(function() {
-                        addEffect();                      
-                        $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'" data-product-id="'+id+'" rel="modal"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');                        
-                    }, 1200);                    
-                }   
-            };
+        init: function() {                
 
             require(['vendor/jquery.easing'], function() {
                 $('.add-cart').on('click', function(e) {
                     var it = $(this).parents('.li-item').attr('id');
-                    addContainer(it);
+                    RP.addItemContainer.init(it, 'list', 10);
                 });
             });
         }
     },
 
+
     //Transfer image to container effect.
     imageTransfer : {
-        init: function(container_block,image_block,ratio,reduce) {            
+        init: function(container_block, image_block, ratio, reduce) {            
             var productX = $(image_block).offset().left;
             var productY = $(image_block).offset().top;
             var cartX = $(".container-list").offset().left;
@@ -371,6 +372,59 @@ RP = {
                 });                                  
             }
         }                   
+    },
+
+
+    //Add item to Container.
+    addItemContainer : {
+        init: function(id, typeTag, reduce) {
+            var li = $('#container-canvas ol #cont_'+id).length;
+            var title, url, img, img_obj; //Variables de objeto
+            var obj = $('body');
+
+             //Effect change color for a moment in container
+            var addEffect = function() {
+                $('.container-list').addClass('encestar');           
+                var timeEffect = setTimeout(function() {
+                    $('.container-list').removeClass('encestar');
+                }, 300);
+            }; 
+
+            if (li < 1) { 
+                if (typeTag === 'list') { //Preguntar si es un producto de la lista
+
+                    title = $('#'+id+' .title').text(), //Capturar titulo
+                    url = $('#'+id+' figure a').attr('href'), //capturar URL
+                    img = $('#'+id+' figure img').attr('src'), //capturar imagen
+                    img_obj = $('#'+id+' figure img'); //Capturar el objeto imagen
+
+                } else { //Oh si es un Modal
+                    title = $('#full-info-product h1.title').text(), //Capturar titulo
+                    url = $('#modal-product').attr('rel'), //capturar URL
+                    img = $('#slider-modal img.current').attr('src'), //capturar imagen
+                    img_obj = $('#slider-modal img.current'); //Capturar el objeto imagen
+                }
+
+                RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo transfer(aplica el efecto fly-to-basket)
+                var timeID = window.setTimeout(function() {
+                    addEffect();                      
+                    $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');                        
+                }, 1200);                    
+            }
+        }     
+    },
+
+
+    //Load CSS aditional
+    loadCss : {
+        init: function(url) {
+            var link = document.createElement("link");
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.href = url;
+
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }            
     }
 };
 

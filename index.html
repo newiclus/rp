@@ -166,11 +166,16 @@
                         </nav>
 
                         <button id="add-product">+ Add Products</button>
+                        <button id="remove-product" class="hidden">- Remove Products</button>
 
                         <dl class="content-modal">
                             <dd id="tab-slider" class="content">
-                                <article id="slider-modal" class="side-left nivoSlider">
-                                    <img class="current" src="images/photo/product/carrier_bag.jpg" alt="Imagen Galeria" width="350" height="350">
+                                <article class="slider-wrapper side-left">
+                                    <div id="slider-modal" class="nivoSlider">
+                                        <img src="images/photo/product/carrier_bag.jpg" alt="Imagen Galeria" width="350" height="350">
+                                        <img src="images/photo/product/wallet.jpg" alt="Imagen Galeria" width="350" height="350">
+                                        <img src="images/photo/product/funda_raquetas.jpg" alt="Imagen Galeria" width="350" height="350">
+                                    </div>                                        
                                 </article>
 
                                 <article id="full-info-product" class="side-left">
@@ -180,14 +185,17 @@
                                         <ul class="set-quantity">
                                             <li>
                                                 Quantity
-                                                <input type="text" value="quantity">
+                                                <input type="text" id="quantity-product" value="quantity" readonly>
                                             </li>
 
-                                            <li>Range</li>
-
                                             <li>
+                                                Range<br>
+                                                <div id="price-range-min"></div>
+                                            </li>
+
+                                            <li class="price-total">
                                                 Price USD
-                                                226.00
+                                                <span>340.00</span>
                                             </li>
                                         </ul>
 
@@ -196,7 +204,7 @@
                                     </div>
 
                                     <h1 class="title">Title Product</h1>
-                                    <span class="price-product"><sup>$</sup>43</span>
+                                    <span class="price-product"><sup>$</sup><span>15</span></span>
                                     
                                     <article>
                                         <p>Inspired by the Brazilian paddleball beach sport, Frescobol, this set is hand crafted in San Francisco from 100% reclaimed American wood.<br>Set includes two paddles, a classic rubber racquetball, and a natural cotton carrying bag.</p>

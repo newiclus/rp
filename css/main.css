@@ -539,6 +539,14 @@ ol.container-list {
 #modal-product .tab-list {
     width: 50%;}
 
+.content-modal dd {
+    margin: 0; 
+    padding:0;}
+
+.slider-wrapper {
+    padding-right: 20px;
+    width: 350px;}
+
 .tab-list li {
     float: left;
     width: 30%;}
@@ -551,6 +559,26 @@ ol.container-list {
         font: 300 1.1em/40px 'verdana';
         height: 40px;
         text-align: center;}
+
+/* Zoom jQuery */
+.zoomIcon { 
+    width:33px; 
+    height:33px; 
+    position:absolute; 
+    top:0;
+    right:0;}
+
+/* these styles are for the demo, and are not required for the plugin */
+.zoom {
+    display:inline-block;
+    position:relative;}
+
+.zoom img {
+    display: block;}
+
+.zoom img::selection {background-color: transparent;}
+img.zoomImg:hover {cursor: url(images/icon-cursor-zoom.png), default;}
+img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 
 
 

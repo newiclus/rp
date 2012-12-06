@@ -255,12 +255,17 @@ RP = {
             
             require(['jquery-ui'], function ($) {
             });
-
             */
-            //Precargar los estilos del jQuery UI
+
+            //Precargar los estilos del jQuery UI y Nivo-slider
             RP.loadCss.init("css/jquery-ui.min.css");
-            
-            require(['vendor/jquery-ui.min'], function() { //Requerir jQuery UI
+            RP.loadCss.init("css/nivo-slider.css");
+
+            require(['vendor/jquery.zoom']); //Request plugin Zoom
+            require(['vendor/nivoslider']); //Request plugin Nivoslider
+            require(['vendor/jquery-ui.min'], function() { //Request plugin jQuery UI
+
+                var priceUnit = parseInt($('#full-info-product .price-product span').text());
 
                 //Open full-detail modal of product
                 $('#content-product').on('click', '.btn-moreDetails', function(e) {
@@ -276,6 +281,45 @@ RP = {
                     
                     $('#preview-close').trigger('click');           
                     $('#modal-product').fadeIn();
+
+                    $('#slider-modal').nivoSlider(
+                        {
+                            effect: 'sliceDown',
+                            controlNavThumbs: false,
+                            directionNav: true,
+                            manualAdvance: true,
+                            prevText: 'Prev',
+                            nextText: 'Next',
+                            beforeChange: function() {
+                                $('.zoomImg').css('z-index', '0');
+                            },
+                            afterChange: function() {
+                                $('.zoomImg').css('z-index', '10');
+                                $('.zoomImg').attr('src', $('.nivo-main-image').attr('src'));
+                            }
+                        }
+                    );
+
+                    //Zoom Start
+                    $('#slider-modal').zoom(
+                        {
+                            url: $('.nivo-main-image').attr('src'),
+                            grab: true
+                        }
+                    );
+
+                    //Implementar slider-range
+                    $("#price-range-min").slider({
+                        range: "min",
+                        value: 30,
+                        min: 25,
+                        max: 85,
+                        slide: function( event, ui ) {
+                            $( "#quantity-product" ).val(ui.value);
+                            $('.price-total span').text(ui.value * priceUnit);
+                        }
+                    });
+                    $("#quantity-product").val( $("#price-range-min").slider("value") );
                 });
             });
                 
@@ -295,30 +339,18 @@ RP = {
                 $('#modal-buyDetail').slideUp();
             });
 
+            //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
                 var mid = $(this).parents('#modal-product').attr('data-id-product');
                 //Callback at method
-                RP.addItemContainer.init(mid, 'modal', 30);
+                RP.addItemContainer.init(mid, 'modal', 30);                
+                $('#btn-closeBuy').trigger('click');
+                $('#btn-closeModal').trigger('click');
+                $('#add-product').addClass('hidden');
+                $('#remove-product').show(0);
             });
 
-            /*$('#modal-content').load(url, function() {
-                $('#nivo-slider').nivoSlider(
-                    {
-                        effect: 'fade',
-                        controlNavThumbs: true,
-                        manualAdvance: true,
-                        prevText: '',
-                        nextText: '',
-                        beforeChange: function() {
-                            $('.zoomImg').css('z-index', '0');
-                        },
-                        afterChange: function() {
-                            $('.zoomImg').css('z-index', '10');
-                            $('.zoomImg').attr('src', $('.nivo-main-image').attr('src'));
-                        }
-                    }
-                );
-                
+            /*    
                 //Zoom Start
                 $('#nivo-slider').zoom(
                     {
@@ -330,9 +362,7 @@ RP = {
                 $('#nivo-slider img').load(function() {
                     $('.loading').fadeOut();
                 });
-            });
-
-            require(['vendor/nivoslider'], function() {});*/
+           ;*/
         }
     },
 
@@ -369,7 +399,7 @@ RP = {
                 .css({'position' : 'absolute','z-index':9999,'left':productX,'top':productY})
                 .animate({ marginLeft: gotoX+90, marginTop: gotoY+30, width: '-='+(reduce/2)+'%',  height: '-='+reduce+'%', opacity: 0.3}, 1200, 'easeInOutBack', function() {
                     $(this).remove();                        
-                });                                  
+                });                                 
             }
         }                   
     },
@@ -401,8 +431,8 @@ RP = {
                 } else { //Oh si es un Modal
                     title = $('#full-info-product h1.title').text(), //Capturar titulo
                     url = $('#modal-product').attr('rel'), //capturar URL
-                    img = $('#slider-modal img.current').attr('src'), //capturar imagen
-                    img_obj = $('#slider-modal img.current'); //Capturar el objeto imagen
+                    img = $('#slider-modal img.nivo-main-image').attr('src'), //capturar imagen
+                    img_obj = $('#slider-modal img.nivo-main-image'); //Capturar el objeto imagen
                 }
 
                 RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo transfer(aplica el efecto fly-to-basket)
@@ -415,16 +445,16 @@ RP = {
     },
 
 
-    //Load CSS aditional
+    //Load aditional CSS 
     loadCss : {
         init: function(url) {
-            var link = document.createElement("link");
-                link.type = "text/css";
-                link.rel = "stylesheet";
-                link.href = url;
+            var newCSS = document.createElement("link");
+                newCSS.type = "text/css";
+                newCSS.rel = "stylesheet";
+                newCSS.href = encodeURI(url);
 
-            document.getElementsByTagName("head")[0].appendChild(link);
-        }            
+            document.getElementsByTagName("head")[0].appendChild(newCSS);
+        }
     }
 };
 

@@ -253,8 +253,7 @@ RP = {
                 }
             });
             
-            require(['jquery-ui'], function ($) {
-            });
+            require(['jquery-ui']);
             */
 
             //Precargar los estilos del jQuery UI y Nivo-slider
@@ -271,13 +270,16 @@ RP = {
                 $('#content-product').on('click', '.btn-moreDetails', function(e) {
                     e.preventDefault();//Cancelar comportamiento
 
-                    var cId = $(this).parents('#preview-product').attr('data-id-product'),//Capturar el ID
-                        url = $(this).attr('href');//Capturar la URL
+                    var cId = $(this).parents('#preview-product').attr('data-id-product'), //Capturar el ID
+                        url = $(this).attr('href'), //Capturar la URL
+                        title = $(this).parent().children('h3').text(); //Capturar el titulo
 
                     $('#modal-product').attr({
                         'data-id-product': cId, //Asignar ID al data-id-product
                         'rel': url //Asignar la URL   
                     });
+
+                     $('#modal-product h1.title').text(title);
                     
                     $('#preview-close').trigger('click');           
                     $('#modal-product').fadeIn();
@@ -322,7 +324,7 @@ RP = {
                     $("#quantity-product").val( $("#price-range-min").slider("value") );
                 });
             });
-                
+            
 
             //close full-detail modal of product
             $('#btn-closeModal').on('click', function() {
@@ -343,39 +345,62 @@ RP = {
             $('#btn-done').on('click', function() {
                 var mid = $(this).parents('#modal-product').attr('data-id-product');
                 //Callback at method
-                RP.addItemContainer.init(mid, 'modal', 30);                
+                RP.addItemContainer.init(mid, 'modal', 30);
+
+                //Activar Opciones de container
+                setTimeout(function() {
+                    RP.container.tooltip(".container-list li#cont_"+mid,"tooltipM");
+                }, 1200);
+
                 $('#btn-closeBuy').trigger('click');
                 $('#btn-closeModal').trigger('click');
                 $('#add-product').addClass('hidden');
                 $('#remove-product').show(0);
-            });
-
-            /*    
-                //Zoom Start
-                $('#nivo-slider').zoom(
-                    {
-                        url: $('.nivo-main-image').attr('src'),
-                        grab: true
-                    }
-                );
-
-                $('#nivo-slider img').load(function() {
-                    $('.loading').fadeOut();
-                });
-           ;*/
+            });           
         }
     },
 
 
     //Canvas Container
     container : {
-        init: function() {                
+        init: function() {
+            require(['vendor/jquery.easing']);
 
-            require(['vendor/jquery.easing'], function() {
-                $('.add-cart').on('click', function(e) {
-                    var it = $(this).parents('.li-item').attr('id');
-                    RP.addItemContainer.init(it, 'list', 10);
-                });
+            $('.add-cart').on('click', function(e) {
+                var it = $(this).parents('.li-item').attr('id');
+                RP.addItemContainer.init(it, 'list', 10);
+
+                setTimeout(function() {
+                    RP.container.tooltip(".container-list li#cont_"+it,"tooltipM");
+                }, 1200);
+            });
+            
+        },
+
+        // Funcion para el Tooltip de cada producto
+        tooltip: function(target_items, name) {                        
+            var obj = $(target_items),
+                title = $('.title-product', obj).text(),
+                i = obj.index(),
+                my_tooltip;
+
+            $("body").append("<div class='"+name+"' id='"+name+i+"'><h4>"+title+"</h4> <ul><li>Adquiridos: 17</li> <li>Porcentaje: 7%</li> <li>Total/Orden Mínimo: 75/100</li></ul> </div>");                
+
+
+            $('.container-list li').hover(
+                function() {
+                    var indice = $(this).index();
+
+                    my_tooltip = $("#"+name+indice);
+                    my_tooltip.css({opacity:0.9, display:"none"}).delay(400).fadeIn(400);
+                },
+                function() {
+                    my_tooltip.fadeOut(0);
+                }
+            );
+           
+            $('.container-list li').mousemove(function(kmouse) {
+                my_tooltip.css({left:kmouse.pageX+15, top:kmouse.pageY+15});
             });
         }
     },

@@ -1,6 +1,7 @@
-/* Name: Royal Pioneers
-   Author: Team RP 
-   RP namespace
+/* 
+    Name: Royal Pioneers
+    Author: Junihor Moran - Team RP
+    Namespace: RP
 */
 
 var storage, 
@@ -163,7 +164,7 @@ RP = {
                     if (liCount < column) {//Si el número de item es menor que la fila
                         currentId = liCount;
                     } else if (fatherId === liCount) {//Si este es el ultimo LI
-                        currentId = (session.boxOpen === 'true') ?  fatherId-1 : fatherId; //Pero si hay un Box Preview abierto
+                        currentId = (session.boxOpen === 'true') ?  fatherId-1 : fatherId; //Pero si hay un BOX PREVIEW abierto
                     } else {
                         currentId = nRow;
                     }
@@ -374,11 +375,14 @@ RP = {
                     RP.container.tooltip(".container-list li#cont_"+it,"tooltipM");
                 }, 1200);
             });
+
+            //Callback a método OptionItem
+            this.optionItem();
             
         },
 
         // Funcion para el Tooltip de cada producto
-        tooltip: function(target_items, name) {                        
+        tooltip: function(target_items, name) {
             var obj = $(target_items),
                 title = $('.title-product', obj).text(),
                 i = obj.index(),
@@ -401,6 +405,18 @@ RP = {
            
             $('.container-list li').mousemove(function(kmouse) {
                 my_tooltip.css({left:kmouse.pageX+15, top:kmouse.pageY+15});
+            });
+        },
+
+        // Funcion para habilitar las opciones de items en el container 
+        optionItem: function() {
+            $('.container-list').on('click', 'li', function() {
+
+                var coorX = $(this).offset().left,
+                    coorY = $(this).offset().top+50;
+
+                $('#option-item-container').css({'top': coorY+'px', 'left': coorX+'px'}).fadeIn();
+
             });
         }
     },
@@ -460,7 +476,7 @@ RP = {
                     img_obj = $('#slider-modal img.nivo-main-image'); //Capturar el objeto imagen
                 }
 
-                RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo transfer(aplica el efecto fly-to-basket)
+                RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo imageTransfer(aplica el efecto fly-to-basket)
                 var timeID = window.setTimeout(function() {
                     addEffect();                      
                     $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');                        

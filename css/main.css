@@ -499,7 +499,7 @@ textarea {resize: vertical;}
 #measure-container p, #measure-container div {
     display: inline-block;}
 
-ol.container-list {
+ol.container-list, .transition {
     /* Transition */
     -webkit-transition: all 0.30s ease-in-out;
        -moz-transition: all 0.30s ease-in-out;
@@ -538,6 +538,20 @@ ol.container-list {
 
 #modal-product .tab-list {
     width: 50%;}
+
+#option-item-container {
+    position: absolute;
+    z-index: 9999;}
+
+#option-item-container ul {background-color: rgba(0,0,0,0.5);}
+
+#option-item-container ul li {
+    float: left;
+    padding-left: 15px;}
+
+#option-item-container li a {
+    color: #FFFFFF;
+    cursor: pointer;}
 
 .content-modal dd {
     margin: 0; 

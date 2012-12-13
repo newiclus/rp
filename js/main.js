@@ -280,7 +280,7 @@ RP = {
                         'rel': url //Asignar la URL   
                     });
 
-                     $('#modal-product h1.title').text(title);
+                    $('#modal-product h1.title').text(title);
                     
                     $('#preview-close').trigger('click');           
                     $('#modal-product').fadeIn();
@@ -364,7 +364,7 @@ RP = {
 
     //Canvas Container
     container : {
-        init: function() {
+        init: function() {  
             require(['vendor/jquery.easing']);
 
             $('.add-cart').on('click', function(e) {
@@ -377,8 +377,7 @@ RP = {
             });
 
             //Callback a método OptionItem
-            this.optionItem();
-            
+            this.optionItem();            
         },
 
         // Funcion para el Tooltip de cada producto
@@ -392,14 +391,15 @@ RP = {
 
 
             $('.container-list li').hover(
-                function() {
+                function(e) {
+                    e.stopPropagation();
                     var indice = $(this).index();
 
                     my_tooltip = $("#"+name+indice);
                     my_tooltip.css({opacity:0.9, display:"none"}).delay(400).fadeIn(400);
                 },
                 function() {
-                    my_tooltip.fadeOut(0);
+                    my_tooltip.hide(0);
                 }
             );
            
@@ -410,14 +410,46 @@ RP = {
 
         // Funcion para habilitar las opciones de items en el container 
         optionItem: function() {
-            $('.container-list').on('click', 'li', function() {
+            var hideOptions = function() {
+                $('#fill-unhover').hide(0);
+                $('#option-item-container').hide(0);
+            };
 
+            $('.container-list').on('click', 'li', function(e) {
+                e.stopPropagation();
                 var coorX = $(this).offset().left,
-                    coorY = $(this).offset().top+50;
+                    coorY = $(this).offset().top,
+                    dataID = $(this).attr('id');
 
-                $('#option-item-container').css({'top': coorY+'px', 'left': coorX+'px'}).fadeIn();
-
+                $('#option-item-container').attr('data-item', dataID);
+                $('#option-item-container').css({'top': coorY+73+'px', 'left': coorX+'px'}).fadeIn();
+                $('#fill-unhover').css({'top': coorY+'px', 'left': coorX+'px'}).fadeIn();
             });
+
+            //
+            $('#opt-delete').on('click', function() {
+                var itemID = $(this).parents('#option-item-container').attr('data-item');
+                $('#'+itemID).remove();
+                hideOptions();
+                RP.container.messageItem('Item Eliminado');
+            });
+
+            $('#opt-view').on('click', function() {
+                $('#modal-product').fadeIn();
+            });
+
+            $('#btn-close-message').on('click', function() {
+                $('#message-top').hide();
+            });
+
+            $('body').on('click', function() {
+                hideOptions();
+            });
+        },
+
+        messageItem: function(message) {
+            $('#message-top cite').text(message);
+            $('#message-top').delay(100).slideDown().delay(3000).slideUp();
         }
     },
 
@@ -479,7 +511,8 @@ RP = {
                 RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo imageTransfer(aplica el efecto fly-to-basket)
                 var timeID = window.setTimeout(function() {
                     addEffect();                      
-                    $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');                        
+                    $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');
+                    //RP.container.messageItem('Item Agregado');
                 }, 1200);                    
             }
         }     

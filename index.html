@@ -65,7 +65,12 @@
 
                 </form>
             </article>
-        </section><!-- end #search -->                
+        </section><!-- end #search -->
+
+        <div id="message-top" class="hidden">            
+            <cite>Add Item Sucessfull</cite>
+            <button id="btn-close-message">X</button>
+        </div>              
 
         <header id="branding">
             <div id="top-header">
@@ -569,15 +574,16 @@
             </div>                
         </footer><!-- end #colophon -->
 
-        <div id="option-item-container" class="hidden transition">
+        <div id="option-item-container" class="hidden transition">            
             <nav class="container-option">
                 <ul class="content">
-                    <li><a title="Editar Producto">Editar</a></li>
-                    <li><button title="Ver detalle" >ver</button> </li>
-                    <li><button title="Eliminar Item">Eliminar</button> </li>
+                    <li><a id="opt-edit" title="Editar Producto">Editar</a></li>
+                    <li><button id="opt-view" title="Ver detalle" >ver</button> </li>
+                    <li><button id="opt-delete" title="Eliminar Item" data-item="">Eliminar</button> </li>
                 </ul>
             </nav>
-        </div>  
+        </div>
+        <div id="fill-unhover" class="hidden"></div> 
       
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>

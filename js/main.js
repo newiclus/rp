@@ -238,6 +238,20 @@ RP = {
 
             //Invocar metodo hermano        
             this.modal();
+
+            //Callback al Modal
+            $('#content-product').on('click', '.btn-moreDetails', function(e) {
+                e.preventDefault();//Cancelar comportamiento
+
+                var cId = $(this).parents('#preview-product').attr('data-id-product'), //Capturar el ID
+                    url = $(this).attr('href'), //Capturar la URL
+                    priceUnit = parseInt($('#full-info-product .price-product span').text()),
+                    title = $(this).parent().children('h3').text(); //Capturar el titulo
+
+                $('#preview-close').trigger('click');
+
+                RP.buy.showModal(cId, url, title, priceUnit);
+            });
         },
 
         private: function() {
@@ -248,85 +262,6 @@ RP = {
 
         //Implementacion del Modal del detalle completo del producto
         modal: function() {
-            /*requirejs.config({
-                paths: {
-                    'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'
-                }
-            });
-            
-            require(['jquery-ui']);
-            */
-
-            //Precargar los estilos del jQuery UI y Nivo-slider
-            RP.loadCss.init("css/jquery-ui.min.css");
-            RP.loadCss.init("css/nivo-slider.css");
-
-            require(['vendor/jquery.zoom']); //Request plugin Zoom
-            require(['vendor/nivoslider']); //Request plugin Nivoslider
-            require(['vendor/jquery-ui.min'], function() { //Request plugin jQuery UI
-
-                var priceUnit = parseInt($('#full-info-product .price-product span').text());
-
-                //Open full-detail modal of product
-                $('#content-product').on('click', '.btn-moreDetails', function(e) {
-                    e.preventDefault();//Cancelar comportamiento
-
-                    var cId = $(this).parents('#preview-product').attr('data-id-product'), //Capturar el ID
-                        url = $(this).attr('href'), //Capturar la URL
-                        title = $(this).parent().children('h3').text(); //Capturar el titulo
-
-                    $('#modal-product').attr({
-                        'data-id-product': cId, //Asignar ID al data-id-product
-                        'rel': url //Asignar la URL   
-                    });
-
-                    $('#modal-product h1.title').text(title);
-                    
-                    $('#preview-close').trigger('click');           
-                    $('#modal-product').fadeIn();
-
-                    $('#slider-modal').nivoSlider(
-                        {
-                            effect: 'sliceDown',
-                            controlNavThumbs: false,
-                            directionNav: true,
-                            manualAdvance: true,
-                            prevText: 'Prev',
-                            nextText: 'Next',
-                            beforeChange: function() {
-                                $('.zoomImg').css('z-index', '0');
-                            },
-                            afterChange: function() {
-                                $('.zoomImg').css('z-index', '10');
-                                $('.zoomImg').attr('src', $('.nivo-main-image').attr('src'));
-                            }
-                        }
-                    );
-
-                    //Zoom Start
-                    $('#slider-modal').zoom(
-                        {
-                            url: $('.nivo-main-image').attr('src'),
-                            grab: true
-                        }
-                    );
-
-                    //Implementar slider-range
-                    $("#price-range-min").slider({
-                        range: "min",
-                        value: 30,
-                        min: 25,
-                        max: 85,
-                        slide: function( event, ui ) {
-                            $( "#quantity-product" ).val(ui.value);
-                            $('.price-total span').text(ui.value * priceUnit);
-                        }
-                    });
-                    $("#quantity-product").val( $("#price-range-min").slider("value") );
-                });
-            });
-            
-
             //close full-detail modal of product
             $('#btn-closeModal').on('click', function() {
                 $('#modal-product').fadeOut();
@@ -358,6 +293,69 @@ RP = {
                 $('#add-product').addClass('hidden');
                 $('#remove-product').show(0);
             });           
+        },
+
+        //Call Modal
+        showModal : function(id, url, title, price) {
+            /*requirejs.config({
+                paths: {
+                    'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'
+                }
+            });            
+            require(['jquery-ui']);*/
+
+            //Precargar los estilos del jQuery UI y Nivo-slider
+            RP.loadCss.init("css/jquery-ui.min.css");
+            RP.loadCss.init("css/nivo-slider.css");
+
+            require(['vendor/jquery.zoom']); //Request plugin Zoom
+            require(['vendor/nivoslider']); //Request plugin Nivoslider
+            require(['vendor/jquery-ui.min']); //Request plugin jQuery UI 
+
+            $('#modal-product').attr({
+                'data-id-product': id, //Asignar ID al data-id-product
+                'rel': url //Asignar la URL   
+            });
+
+            $('#modal-product h1.title').text(title);
+                                   
+            $('#modal-product').fadeIn();
+
+            $('#slider-modal').nivoSlider({
+                effect: 'sliceDown',
+                controlNavThumbs: false,
+                directionNav: true,
+                manualAdvance: true,
+                prevText: 'Prev',
+                nextText: 'Next',
+                beforeChange: function() {
+                    $('.zoomImg').css('z-index', '0');
+                },
+                afterChange: function() {
+                    $('.zoomImg').css('z-index', '10');
+                    $('.zoomImg').attr('src', $('.nivo-main-image').attr('src'));
+                }
+            });
+
+            //Zoom Start
+            $('#slider-modal').zoom({
+                url: $('.nivo-main-image').attr('src'),
+                grab: true
+            });
+
+            //Implementar slider-range
+            $("#price-range-min").slider({
+                range: "min",
+                value: 30,
+                min: 25,
+                max: 85,
+                slide: function( event, ui ) {
+                    $( "#quantity-product" ).val(ui.value);
+                    $('.price-total span').text(ui.value * price);
+                }
+            });
+
+            $("#quantity-product").val( $("#price-range-min").slider("value") );                                   
         }
     },
 
@@ -434,8 +432,15 @@ RP = {
                 RP.container.messageItem('Item Eliminado');
             });
 
+            //Option "view" of the item 
             $('#opt-view').on('click', function() {
-                $('#modal-product').fadeIn();
+
+                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_'), 
+                    url, 
+                    title, 
+                    priceUnit;
+                alert(cId);
+                //RP.buy.showModal(cId, url, title, priceUnit);
             });
 
             $('#btn-close-message').on('click', function() {

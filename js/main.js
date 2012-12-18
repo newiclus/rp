@@ -96,8 +96,9 @@ RP = {
             );
 
             //Constructor del preview del producto
-            var buildPreview = function(iq, title, description, url, img, price) {
+            var buildPreview = function(iq, id, title, description, url, img, price) {
                 this.iq = iq;
+                this.id = id;
                 this.title = title;
                 this.description = description;
                 this.url = url;
@@ -108,20 +109,38 @@ RP = {
             
             //Metodo para crear el preview de cada producto
             buildPreview.prototype.htmlBuild = function() {
-                var img_preview = '<div class="side-left img-preview"><img alt="'+this.title+'" src="'+this.img+'" width="220" height="220"></div>',
-                    text_preview = '<div class="side-left content-preview"><h3>'+this.title+'</h3><div class="text-preview"><p class="preview-price absolute-TopRight">'+this.price+'</p><p>'+this.description+'</p></div><a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a></div>',
-                    data = img_preview + text_preview;
-
-                $('#preview-product ul').append('<li><div class="content">'+data+'</div></li>'); 
+                $('#preview-product ul').append(
+                    //Construir estructura HTML
+                    '<li data-preview-id="'+this.id+'">\
+                        <div class="content">\
+                            <div class="side-left img-preview">\
+                                <img alt="'+this.title+'" src="'+this.img+'" width="220" height="220">\
+                            </div>\
+                            <div class="side-left content-preview">\
+                                <h3>'+this.title+'</h3>\
+                                <div class="text-preview">\
+                                    <p class="preview-price absolute-TopRight">'+this.price+'</p>\
+                                    <p>'+this.description+'</p>\
+                                </div>\
+                                <a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a>\
+                            </div>\
+                        </div>\
+                    </li>'
+                ); 
             };            
             
             //Funcion para construir esqueleto del preview
-            var contentBuild = function(eq, slide, id) {
-                var arrow = '<span class="arrow-here"> ^ </span>', //Flecha indicadora
-                    btnClose = '<button id="preview-close" class="absolute-TopRight">X close</button>', //Boton cerrar Preview
-                    btnUp = '<button class="simulator-Top">Up</button>', //Boton subir
-                    btnDown = '<button class="simulator-Down">Down</button>'; //Boton bajar
-                $('#content-product dl dd:eq('+eq+')').after('<dd id="preview-product" class="preview-product hidden" data-id-product="'+id+'" data-id="'+slide+'">'+arrow+btnClose+btnUp+'<ul></ul>'+btnDown+'</dd>');
+            var contentBuild = function(eq, slide) {
+                $('#content-product dl dd:eq('+eq+')').after(
+                    //Construir estructura HTML
+                    '<dd id="preview-product" class="preview-product hidden" data-id="'+slide+'">\
+                        <span class="arrow-here"> ^ </span>\
+                        <button id="preview-close" class="absolute-TopRight">X close</button>\
+                        <button class="simulator-Top">Up</button>\
+                        <ul></ul>\
+                        <button class="simulator-Down">Down</button>\
+                    </dd>'
+                );
             };
 
             //Subir Box Preview
@@ -149,8 +168,7 @@ RP = {
                     var title = $(this).parents('.product-item').find('h2').text(),
                         father = $(this).parents('.content-product-item').children('li'),
                         child = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
-                        slideId = parseInt($(this).parents('.li-item').attr('data-slide')), //Numero de Slide
-                        nId = $(this).parents('.li-item').attr('id'), //Capturar el ID del producto
+                        slideId = parseInt($(this).parents('.li-item').attr('data-slide')), //Numero de Slide                        
                         slide = $(this).parents('.product-item').attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
                         
                         //Variables de Posicion de BOX PREVIEW
@@ -173,17 +191,18 @@ RP = {
                     
                     //Crear un preview
                     var createPrev = function() {
-                        contentBuild(currentId, slide, nId);
+                        contentBuild(currentId, slide);
 
                         father.each(function(i) {
-                            var title = $('h2', this).text(),                                
+                            var nId = $(this).attr('id'), //Capturar el ID del producto
+                                title = $('h2', this).text(),                                
                                 description = 'Esta es una prueba',
                                 url = $('figure a', this).attr('href'),
                                 image = 'images/test.jpg',                                
-                                price = $('.price', this).html();
+                                price = $('.price', this).text();
 
                             //Crear un nuevo Objeto
-                            Cajita = new buildPreview(currentId, title, description, url, image, price);
+                            Cajita = new buildPreview(currentId, nId, title, description, url, image, price);
 
                             //Insertar data en BOX PREVIEW             
                             Cajita.htmlBuild();
@@ -239,18 +258,27 @@ RP = {
             //Invocar metodo hermano        
             this.modal();
 
+
+            //Precargar los estilos del jQuery UI y Nivo-slider
+            RP.loadCss.init("css/jquery-ui.min.css");
+            RP.loadCss.init("css/nivo-slider.css");
+
+            require(['vendor/jquery.zoom']); //Request plugin Zoom
+            require(['vendor/nivoslider']); //Request plugin Nivoslider
+            require(['vendor/jquery-ui.min']); //Request plugin jQuery UI
+
             //Callback al Modal
             $('#content-product').on('click', '.btn-moreDetails', function(e) {
                 e.preventDefault();//Cancelar comportamiento
 
-                var cId = $(this).parents('#preview-product').attr('data-id-product'), //Capturar el ID
-                    url = $(this).attr('href'), //Capturar la URL
-                    priceUnit = parseInt($('#full-info-product .price-product span').text()),
-                    title = $(this).parent().children('h3').text(); //Capturar el titulo
+                var cId = $(this).parents('li').attr('data-preview-id'), //Capturar el ID del producto
+                    url = $('#'+cId+' figure a').attr('href'), 
+                    title = $('#'+cId+' h2.title').text(), 
+                    priceUnit = parseInt($('#'+cId+' .price').text());
 
                 $('#preview-close').trigger('click');
 
-                RP.buy.showModal(cId, url, title, priceUnit);
+                RP.buy.showModal(cId, url, title, priceUnit, 'false');
             });
         },
 
@@ -279,9 +307,13 @@ RP = {
 
             //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
-                var mid = $(this).parents('#modal-product').attr('data-id-product');
+                var mid = $(this).parents('#modal-product').attr('data-id-product'),
+                    price = $(this).parents('#full-info-product').find('.price-product').text(), //Capturar el precio
+                    quantity = $(this).parents('#modal-buyDetail').find('#quantity-product').val(); //Capturar la cantidad
+
+
                 //Callback at method
-                RP.addItemContainer.init(mid, 'modal', 30);
+                RP.addItemContainer.init(mid, 'modal', 30, quantity, price);
 
                 //Activar Opciones de container
                 setTimeout(function() {
@@ -296,21 +328,13 @@ RP = {
         },
 
         //Call Modal
-        showModal : function(id, url, title, price) {
+        showModal : function(id, url, title, price, edit) {
             /*requirejs.config({
                 paths: {
                     'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'
                 }
             });            
-            require(['jquery-ui']);*/
-
-            //Precargar los estilos del jQuery UI y Nivo-slider
-            RP.loadCss.init("css/jquery-ui.min.css");
-            RP.loadCss.init("css/nivo-slider.css");
-
-            require(['vendor/jquery.zoom']); //Request plugin Zoom
-            require(['vendor/nivoslider']); //Request plugin Nivoslider
-            require(['vendor/jquery-ui.min']); //Request plugin jQuery UI 
+            require(['jquery-ui']);*/            
 
             $('#modal-product').attr({
                 'data-id-product': id, //Asignar ID al data-id-product
@@ -320,6 +344,8 @@ RP = {
             $('#modal-product h1.title').text(title);
                                    
             $('#modal-product').fadeIn();
+
+            $('#modal-product .price-product').text(price);
 
             $('#slider-modal').nivoSlider({
                 effect: 'sliceDown',
@@ -355,14 +381,18 @@ RP = {
                 }
             });
 
-            $("#quantity-product").val( $("#price-range-min").slider("value") );                                   
+            $("#quantity-product").val( $("#price-range-min").slider("value") );
+
+            if (edit === 'true')  {
+                $('#modal-buyDetail').delay(300).slideDown();
+            }                           
         }
     },
 
 
     //Canvas Container
     container : {
-        init: function() {  
+        init : function() {
             require(['vendor/jquery.easing']);
 
             $('.add-cart').on('click', function(e) {
@@ -379,7 +409,7 @@ RP = {
         },
 
         // Funcion para el Tooltip de cada producto
-        tooltip: function(target_items, name) {
+        tooltip : function(target_items, name) {
             var obj = $(target_items),
                 title = $('.title-product', obj).text(),
                 i = obj.index(),
@@ -407,7 +437,7 @@ RP = {
         },
 
         // Funcion para habilitar las opciones de items en el container 
-        optionItem: function() {
+        optionItem : function() {
             var hideOptions = function() {
                 $('#fill-unhover').hide(0);
                 $('#option-item-container').hide(0);
@@ -434,14 +464,24 @@ RP = {
 
             //Option "view" of the item 
             $('#opt-view').on('click', function() {
-
-                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_'), 
-                    url, 
-                    title, 
-                    priceUnit;
-                alert(cId);
-                //RP.buy.showModal(cId, url, title, priceUnit);
+                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    url = $('#'+cId+' figure a').attr('href'), 
+                    title = $('#'+cId+' h2.title').text(), 
+                    priceUnit = parseInt($('#'+cId+' .price').text());
+                
+                RP.buy.showModal(cId, url, title, priceUnit);
             });
+
+            //Option "Edit" of the item 
+            $('#opt-edit').on('click', function() {
+                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    url = $('#'+cId+' figure a').attr('href'), 
+                    title = $('#'+cId+' h2.title').text(), 
+                    priceUnit = parseInt($('#'+cId+' .price').text());
+                
+                RP.buy.showModal(cId, url, title, priceUnit, 'true');
+            });
+
 
             $('#btn-close-message').on('click', function() {
                 $('#message-top').hide();
@@ -452,9 +492,13 @@ RP = {
             });
         },
 
-        messageItem: function(message) {
+        //genera un mensaje
+        messageItem : function(message) {
             $('#message-top cite').text(message);
             $('#message-top').delay(100).slideDown().delay(3000).slideUp();
+        },
+
+        details : function() {
         }
     },
 
@@ -485,12 +529,12 @@ RP = {
 
     //Add item to Container.
     addItemContainer : {
-        init: function(id, typeTag, reduce) {
+        init: function(id, typeTag, reduce, cant, price) {
             var li = $('#container-canvas ol #cont_'+id).length;
             var title, url, img, img_obj; //Variables de objeto
             var obj = $('body');
 
-             //Effect change color for a moment in container
+            //Effect change color for a moment in container
             var addEffect = function() {
                 $('.container-list').addClass('encestar');           
                 var timeEffect = setTimeout(function() {
@@ -516,7 +560,14 @@ RP = {
                 RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo imageTransfer(aplica el efecto fly-to-basket)
                 var timeID = window.setTimeout(function() {
                     addEffect();                      
-                    $('.container-list').append('<li id="cont_'+id+'"><a href="'+url+'"><img src="'+img+'" alt="" width="80" height="73" ><span class="title-product">'+title+'</span></a></li>');
+                    $('.container-list').append(
+                        '<li id="cont_'+id+'">\
+                            <a href="'+url+'">\
+                                <img src="'+img+'" alt="" width="80" height="73" >\
+                                <div class="hidden"><span class="title-product">'+title+'</span> <span class="price">'+price+'</span> <span class="quantity">'+cant+'</span></div>\
+                            </a>\
+                        </li>'
+                    );
                     //RP.container.messageItem('Item Agregado');
                 }, 1200);                    
             }

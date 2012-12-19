@@ -308,7 +308,7 @@ RP = {
             //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
                 var mid = $(this).parents('#modal-product').attr('data-id-product'),
-                    price = $(this).parents('#full-info-product').find('.price-product').text(), //Capturar el precio
+                    price = parseInt( $(this).parents('#full-info-product').find('.price-product').text() ), //Capturar el precio
                     quantity = $(this).parents('#modal-buyDetail').find('#quantity-product').val(); //Capturar la cantidad
 
 
@@ -415,7 +415,9 @@ RP = {
                 i = obj.index(),
                 my_tooltip;
 
-            $("body").append("<div class='"+name+"' id='"+name+i+"'><h4>"+title+"</h4> <ul><li>Adquiridos: 17</li> <li>Porcentaje: 7%</li> <li>Total/Orden Mínimo: 75/100</li></ul> </div>");                
+            $("body").append(
+                "<div class='"+name+"' id='"+name+i+"'><h4>"+title+"</h4> <ul><li>Adquiridos: 17</li> <li>Porcentaje: 7%</li> <li>Total/Orden Mínimo: 75/100</li></ul> </div>"
+            );                
 
 
             $('.container-list li').hover(
@@ -499,6 +501,17 @@ RP = {
         },
 
         details : function() {
+            var costTotal = function() {
+                var costItem;
+
+                $('.container-list li').each(function() {
+                    costItem = parseInt( $('.total', this).text() );
+                    costItem += costItem                   
+                });
+                 $('.header-container .price-total').text(costItem);
+            };
+
+            costTotal();
         }
     },
 
@@ -558,19 +571,25 @@ RP = {
                 }
 
                 RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo imageTransfer(aplica el efecto fly-to-basket)
+
                 var timeID = window.setTimeout(function() {
                     addEffect();                      
                     $('.container-list').append(
                         '<li id="cont_'+id+'">\
                             <a href="'+url+'">\
                                 <img src="'+img+'" alt="" width="80" height="73" >\
-                                <div class="hidden"><span class="title-product">'+title+'</span> <span class="price">'+price+'</span> <span class="quantity">'+cant+'</span></div>\
+                                <div class="hidden">\
+                                    <span class="title-product">'+title+'</span> <span class="price">'+price+'</span> <span class="quantity">'+cant+'</span> <span class="total">'+cant*price+'</span>\
+                                </div>\
                             </a>\
                         </li>'
                     );
-                    //RP.container.messageItem('Item Agregado');
-                }, 1200);                    
+
+                    //Detalle del container
+                    RP.container.details();
+                }, 1200);                   
             }
+
         }     
     },
 

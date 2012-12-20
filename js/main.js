@@ -96,7 +96,7 @@ RP = {
             );
 
             //Constructor del preview del producto
-            var buildPreview = function(iq, id, title, description, url, img, price) {
+            var buildPreview = function(iq, id, title, description, url, img, price, percentage) {
                 this.iq = iq;
                 this.id = id;
                 this.title = title;
@@ -104,6 +104,7 @@ RP = {
                 this.url = url;
                 this.img = img;
                 this.price = price;
+                this.percentage = percentage;
             };
 
             
@@ -121,6 +122,7 @@ RP = {
                                 <div class="text-preview">\
                                     <p class="preview-price absolute-TopRight">'+this.price+'</p>\
                                     <p>'+this.description+'</p>\
+                                    <p>'+this.percentage+'</p>\
                                 </div>\
                                 <a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a>\
                             </div>\
@@ -165,14 +167,16 @@ RP = {
             //Abrir/Cerrar Preview de lista de Productos
             $('.product-item .btn-review').toggle(
                 function() {
-                    var title = $(this).parents('.product-item').find('h2').text(),
-                        father = $(this).parents('.content-product-item').children('li'),
-                        child = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
-                        slideId = parseInt($(this).parents('.li-item').attr('data-slide')), //Numero de Slide                        
-                        slide = $(this).parents('.product-item').attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
+                    var axioma  = $(this).parents('.product-item'),
+                        title   = axioma.find('h2').text(),
+                        father  = $(this).parents('.content-product-item').children('li'),
+                        child   = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
+                        slideId = parseInt(axioma.attr('data-slide')), //Numero de Slide                        
+                        slide   = axioma.attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
+                        percentage = axioma.find('');
                         
                         //Variables de Posicion de BOX PREVIEW
-                        fatherId = $(this).parents('.product-item').index(), //Capturar el Index del ancestro (DD)
+                        fatherId = axioma.index(), //Capturar el Index del ancestro (DD)
                         column = 4,                        
                         nRow = (Math.ceil(fatherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
                         liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items                        
@@ -208,8 +212,8 @@ RP = {
                             Cajita.htmlBuild();
                         });
 
-                        if (child > 1) {
-                            $('#preview-product').slideRP({
+                        if (child > 1) { //Si hay mas de una presentacion
+                            $('#preview-product').slideRP({ //Activar slider RP
                                 startSlide: slideId
                             });
                         }
@@ -322,8 +326,8 @@ RP = {
 
                 $('#btn-closeBuy').trigger('click');
                 $('#btn-closeModal').trigger('click');
-                $('#add-product').addClass('hidden');
-                $('#remove-product').show(0);
+                //$('#add-product').addClass('hidden');
+                //$('#remove-product').show(0);
             });           
         },
 
@@ -393,7 +397,7 @@ RP = {
     //Canvas Container
     container : {
         init : function() {
-            require(['vendor/jquery.easing']);
+            require(['vendor/jquery.easing']);            
 
             $('.add-cart').on('click', function(e) {
                 var it = $(this).parents('.li-item').attr('id');
@@ -405,7 +409,13 @@ RP = {
             });
 
             //Callback a método OptionItem
-            this.optionItem();            
+            this.optionItem();
+
+            //Llamar al efecto dial
+            require(['vendor/jquery.knob.min'], function() {
+                $('#dial-container').knob();
+            });
+            
         },
 
         // Funcion para el Tooltip de cada producto
@@ -462,6 +472,7 @@ RP = {
                 $('#'+itemID).remove();
                 hideOptions();
                 RP.container.messageItem('Item Eliminado');
+                RP.container.details();
             });
 
             //Option "view" of the item 
@@ -502,16 +513,17 @@ RP = {
 
         details : function() {
             var costTotal = function() {
-                var costItem;
+                var costFull = 0;
 
                 $('.container-list li').each(function() {
                     costItem = parseInt( $('.total', this).text() );
-                    costItem += costItem                   
+                    costFull += costItem;             
                 });
-                 $('.header-container .price-total').text(costItem);
+                $('.header-container .price-total').text(costFull);
             };
-
             costTotal();
+
+            $('#dial-container').val(27).trigger('change');
         }
     },
 

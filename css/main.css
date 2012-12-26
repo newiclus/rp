@@ -345,6 +345,16 @@ textarea {resize: vertical;}
 
     .breadcumbs ul li a:hover {color: #333;}
 
+.check-select {
+    background-color: #0099FF;
+    display: inline-block;
+    height: 15px;
+    position: absolute;
+    right: 0;
+    top: 0;    
+    width: 15px;
+    z-index: 5;}
+
 .content-product-item {
     height: 170px;
     list-style: none;
@@ -642,14 +652,6 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 .content-footer {
     margin: 0 auto;
     max-width: 80em;}
-
-
-
-
-
-
-
-
 
 
 

@@ -122,7 +122,7 @@ RP = {
                                 <div class="text-preview">\
                                     <p class="preview-price absolute-TopRight">'+this.price+'</p>\
                                     <p>'+this.description+'</p>\
-                                    <p>'+this.percentage+'</p>\
+                                    <p><span class="percentage">'+this.percentage+'<span>%</p>\
                                 </div>\
                                 <a class="btn-moreDetails" href="'+this.url+'">More Details [+]</a>\
                             </div>\
@@ -169,12 +169,10 @@ RP = {
                 function() {
                     var axioma  = $(this).parents('.product-item'),
                         title   = axioma.find('h2').text(),
-                        father  = $(this).parents('.content-product-item').children('li'),
-                        child   = $(this).parents('.content-product-item').children('li').length, //Calcular cantidad de Presentaciones
-                        slideId = parseInt(axioma.attr('data-slide')), //Numero de Slide                        
+                        child  = $(this).parents('.content-product-item').children('li'),
+                        slideId = axioma.attr('data-slide'), //Numero de Slide                        
                         slide   = axioma.attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
-                        percentage = axioma.find('');
-                        
+                                                
                         //Variables de Posicion de BOX PREVIEW
                         fatherId = axioma.index(), //Capturar el Index del ancestro (DD)
                         column = 4,                        
@@ -197,22 +195,23 @@ RP = {
                     var createPrev = function() {
                         contentBuild(currentId, slide);
 
-                        father.each(function(i) {
-                            var nId = $(this).attr('id'), //Capturar el ID del producto
+                        child.each(function(i) {
+                            var nId   = $(this).attr('id'), //Capturar el ID del producto
                                 title = $('h2', this).text(),                                
                                 description = 'Esta es una prueba',
-                                url = $('figure a', this).attr('href'),
+                                url   = $('figure a', this).attr('href'),
                                 image = 'images/test.jpg',                                
-                                price = $('.price', this).text();
+                                price = $('.price', this).text()
+                                percentage = $('.product-item-percentage span', this).text();
 
                             //Crear un nuevo Objeto
-                            Cajita = new buildPreview(currentId, nId, title, description, url, image, price);
+                            Cajita = new buildPreview(currentId, nId, title, description, url, image, price, percentage);
 
                             //Insertar data en BOX PREVIEW             
                             Cajita.htmlBuild();
                         });
 
-                        if (child > 1) { //Si hay mas de una presentacion
+                        if (child.length > 1) { //Si hay mas de una presentacion                            
                             $('#preview-product').slideRP({ //Activar slider RP
                                 startSlide: slideId
                             });
@@ -311,7 +310,7 @@ RP = {
 
             //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
-                var mid = $(this).parents('#modal-product').attr('data-id-product'),
+                var mid   = $(this).parents('#modal-product').attr('data-id-product'),
                     price = parseInt( $(this).parents('#full-info-product').find('.price-product').text() ), //Capturar el precio
                     quantity = $(this).parents('#modal-buyDetail').find('#quantity-product').val(); //Capturar la cantidad
 
@@ -422,11 +421,15 @@ RP = {
         tooltip : function(target_items, name) {
             var obj = $(target_items),
                 title = $('.title-product', obj).text(),
+                percentage = $('.percentage-item', obj).text(),
                 i = obj.index(),
                 my_tooltip;
 
             $("body").append(
-                "<div class='"+name+"' id='"+name+i+"'><h4>"+title+"</h4> <ul><li>Adquiridos: 17</li> <li>Porcentaje: 7%</li> <li>Total/Orden Mínimo: 75/100</li></ul> </div>"
+                '<div class="'+name+'" id="'+name+i+'">\
+                    <h4>'+title+'</h4>\
+                    <ul><li>Adquiridos: 17</li> <li>Porcentaje: <span class="percentage">'+percentage+'</span>%</li> <li>Total/Orden Mínimo: 75/100</li></ul>\
+                </div>'
             );                
 
 
@@ -468,8 +471,11 @@ RP = {
 
             //
             $('#opt-delete').on('click', function() {
-                var itemID = $(this).parents('#option-item-container').attr('data-item');
+                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    itemID = $(this).parents('#option-item-container').attr('data-item');
                 $('#'+itemID).remove();
+                $('#'+cId+' .check-select').remove();
+
                 hideOptions();
                 RP.container.messageItem('Item Eliminado');
                 RP.container.details();
@@ -480,7 +486,7 @@ RP = {
                 var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
                     url = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
-                    priceUnit = parseInt($('#'+cId+' .price').text());
+                    priceUnit = parseFloat($('#'+cId+' .price').text());
                 
                 RP.buy.showModal(cId, url, title, priceUnit);
             });
@@ -490,11 +496,10 @@ RP = {
                 var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
                     url = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
-                    priceUnit = parseInt($('#'+cId+' .price').text());
+                    priceUnit = parseFloat($('#'+cId+' .price').text());
                 
                 RP.buy.showModal(cId, url, title, priceUnit, 'true');
             });
-
 
             $('#btn-close-message').on('click', function() {
                 $('#message-top').hide();
@@ -513,17 +518,21 @@ RP = {
 
         details : function() {
             var costTotal = function() {
-                var costFull = 0;
+                var costFull   = 0,
+                    porcentaje = 0;
 
                 $('.container-list li').each(function() {
-                    costItem = parseInt( $('.total', this).text() );
-                    costFull += costItem;             
-                });
-                $('.header-container .price-total').text(costFull);
-            };
-            costTotal();
+                    var costItem   = parseFloat( $('.total', this).text() ),
+                        percentage = parseFloat( $('.percentage-item', this).text() );
 
-            $('#dial-container').val(27).trigger('change');
+                    costFull += costItem;
+                    porcentaje += percentage;            
+                });
+
+                $('.header-container .price-total').text(costFull);
+                $('#dial-container').val(porcentaje).trigger('change');
+            };
+            costTotal();            
         }
     },
 
@@ -556,7 +565,7 @@ RP = {
     addItemContainer : {
         init: function(id, typeTag, reduce, cant, price) {
             var li = $('#container-canvas ol #cont_'+id).length;
-            var title, url, img, img_obj; //Variables de objeto
+            var title, url, img, img_obj, percentage; //Variables de objeto
             var obj = $('body');
 
             //Effect change color for a moment in container
@@ -567,31 +576,34 @@ RP = {
                 }, 300);
             }; 
 
-            if (li < 1) { 
+            title = $('#'+id+' .title').text(); //Capturar titulo
+            url   = $('#'+id+' figure a').attr('href');//capturar URL
+            percentage = $('#'+id+' .product-item-percentage span').text(); //Capturar Porcentaje                
+
+            if (li < 1) {
                 if (typeTag === 'list') { //Preguntar si es un producto de la lista
-
-                    title = $('#'+id+' .title').text(), //Capturar titulo
-                    url = $('#'+id+' figure a').attr('href'), //capturar URL
-                    img = $('#'+id+' figure img').attr('src'), //capturar imagen
-                    img_obj = $('#'+id+' figure img'); //Capturar el objeto imagen
-
+                    img   = $('#'+id+' figure img').attr('src'); //capturar imagen
+                    img_obj    = $('#'+id+' figure img'); //Capturar el objeto imagen
                 } else { //Oh si es un Modal
-                    title = $('#full-info-product h1.title').text(), //Capturar titulo
-                    url = $('#modal-product').attr('rel'), //capturar URL
-                    img = $('#slider-modal img.nivo-main-image').attr('src'), //capturar imagen
-                    img_obj = $('#slider-modal img.nivo-main-image'); //Capturar el objeto imagen
+                    img   = $('#slider-modal img.nivo-main-image').attr('src'); //capturar imagen
+                    img_obj = $('#slider-modal img.nivo-main-image'); //Capturar el objeto imagen                    
                 }
 
                 RP.imageTransfer.init(obj, img_obj, 0, reduce); //Lamar al metodo imageTransfer(aplica el efecto fly-to-basket)
 
                 var timeID = window.setTimeout(function() {
-                    addEffect();                      
+                    addEffect();
+
                     $('.container-list').append(
                         '<li id="cont_'+id+'">\
                             <a href="'+url+'">\
                                 <img src="'+img+'" alt="" width="80" height="73" >\
                                 <div class="hidden">\
-                                    <span class="title-product">'+title+'</span> <span class="price">'+price+'</span> <span class="quantity">'+cant+'</span> <span class="total">'+cant*price+'</span>\
+                                    <span class="title-product">'+title+'</span>\
+                                    <span class="percentage-item">'+(percentage*cant).toFixed(2)+'</span>\
+                                    <span class="price">'+price+'</span>\
+                                    <span class="quantity">'+cant+'</span>\
+                                    <span class="total">'+cant*price+'</span>\
                                 </div>\
                             </a>\
                         </li>'
@@ -599,7 +611,16 @@ RP = {
 
                     //Detalle del container
                     RP.container.details();
-                }, 1200);                   
+
+                    $('#'+id).append('<span class="check-select" />');
+                }, 1200);
+
+            } else {
+                //Editar Item
+                $('#cont_'+id+' .percentage-item').text((percentage*cant).toFixed(2)); //Modificar el porcentaje
+                $('#cont_'+id+' .total').text(price*cant); //Modificar Precio total
+                addEffect();
+                RP.container.details();
             }
 
         }     

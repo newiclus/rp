@@ -5,7 +5,8 @@
 */
 
 var storage, 
-    session;
+    session,
+    modalityBuy;
 //localStorage.clear();
 //sessionStorage.clear();
 
@@ -169,7 +170,7 @@ RP = {
                 function() {
                     var axioma  = $(this).parents('.product-item'),
                         title   = axioma.find('h2').text(),
-                        child  = $(this).parents('.content-product-item').children('li'),
+                        child   = $(this).parents('.content-product-item').children('li'),
                         slideId = axioma.attr('data-slide'), //Numero de Slide                        
                         slide   = axioma.attr('data-id'), //Capturar el data-id para interactuar con el plugin slideRP
                                                 
@@ -274,21 +275,30 @@ RP = {
             $('#content-product').on('click', '.btn-moreDetails', function(e) {
                 e.preventDefault();//Cancelar comportamiento
 
-                var cId = $(this).parents('li').attr('data-preview-id'), //Capturar el ID del producto
-                    url = $('#'+cId+' figure a').attr('href'), 
-                    title = $('#'+cId+' h2.title').text(), 
+                var cId   = $(this).parents('li').attr('data-preview-id'), //Capturar el ID del producto
+                    url   = $('#'+cId+' figure a').attr('href'), 
+                    title = $('#'+cId+' h2.title').text(),
+                    om,
                     priceUnit = parseInt($('#'+cId+' .price').text());
+
+                if (modalityBuy === 'private') {
+                    om = parseInt($('#'+cId+' .product-item-minimun span').text());
+                } else {
+                    om = 1;
+                }                    
 
                 $('#preview-close').trigger('click');
 
-                RP.buy.showModal(cId, url, title, priceUnit, 'false');
+                RP.buy.showModal(cId, url, title, priceUnit, om, 'false');
             });
         },
 
         private: function() {
+            modalityBuy = 'private';
         },
 
         group: function() {
+            modalityBuy = 'group';
         },
 
         //Implementacion del Modal del detalle completo del producto
@@ -331,7 +341,7 @@ RP = {
         },
 
         //Call Modal
-        showModal : function(id, url, title, price, edit) {
+        showModal : function(id, url, title, price, om, edit) {
             /*requirejs.config({
                 paths: {
                     'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'
@@ -376,7 +386,7 @@ RP = {
             $("#price-range-min").slider({
                 range: "min",
                 value: 30,
-                min: 25,
+                min: om,
                 max: 85,
                 slide: function( event, ui ) {
                     $( "#quantity-product" ).val(ui.value);
@@ -483,22 +493,36 @@ RP = {
 
             //Option "view" of the item 
             $('#opt-view').on('click', function() {
-                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
-                    url = $('#'+cId+' figure a').attr('href'), 
+                var cId   = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    url   = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
-                    priceUnit = parseFloat($('#'+cId+' .price').text());
+                    priceUnit = parseFloat($('#'+cId+' .price').text()),
+                    om;
+
+                if (modalityBuy === 'private') {
+                    om = parseInt($('#'+cId+' .product-item-minimun span').text());
+                } else {
+                    om = 1;
+                }
                 
-                RP.buy.showModal(cId, url, title, priceUnit);
+                RP.buy.showModal(cId, url, title, priceUnit, om, 'false');
             });
 
             //Option "Edit" of the item 
             $('#opt-edit').on('click', function() {
-                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
-                    url = $('#'+cId+' figure a').attr('href'), 
+                var cId   = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    url   = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
-                    priceUnit = parseFloat($('#'+cId+' .price').text());
+                    priceUnit = parseFloat($('#'+cId+' .price').text()),
+                    om;
+
+                if (modalityBuy === 'private') {
+                    om = parseInt($('#'+cId+' .product-item-minimun span').text());
+                } else {
+                    om = 1;
+                }
                 
-                RP.buy.showModal(cId, url, title, priceUnit, 'true');
+                RP.buy.showModal(cId, url, title, priceUnit, om, 'true');
             });
 
             $('#btn-close-message').on('click', function() {

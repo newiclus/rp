@@ -176,9 +176,9 @@ RP = {
                                                 
                         //Variables de Posicion de BOX PREVIEW
                         fatherId = axioma.index(), //Capturar el Index del ancestro (DD)
-                        column = 4,                        
-                        nRow = (Math.ceil(fatherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
-                        liCount = $('#content-product dl > dd').length - 1, //Cantidad de Items                        
+                        column   = 4,                        
+                        nRow     = (Math.ceil(fatherId/column) * column), //Determinar a que fila pertenece y posicionarlo despues de está
+                        liCount  = $('#content-product dl > dd').length - 1, //Cantidad de Items                        
                         currentId; //capturar Index donde posteriormente se agregara la data
 
                     //Comprobar la ubicacion del BOX PREVIEW
@@ -278,10 +278,10 @@ RP = {
                 var cId   = $(this).parents('li').attr('data-preview-id'), //Capturar el ID del producto
                     url   = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(),
-                    om,
+                    om, //Orden Minimo
                     priceUnit = parseInt($('#'+cId+' .price').text());
 
-                if (modalityBuy === 'private') {
+                if (modalityBuy === 'private') {//Preguntar que tipo de modalidad esta
                     om = parseInt($('#'+cId+' .product-item-minimun span').text());
                 } else {
                     om = 1;
@@ -294,11 +294,16 @@ RP = {
         },
 
         private: function() {
+            //Modalidad de Compra
             modalityBuy = 'private';
         },
 
         group: function() {
+            //Modalidad de compra
             modalityBuy = 'group';
+
+            //Habilitar Tooltips
+            RP.container.tooltip(".container-list li#cont_"+id, "tooltip");
         },
 
         //Implementacion del Modal del detalle completo del producto
@@ -320,18 +325,13 @@ RP = {
 
             //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
-                var mid   = $(this).parents('#modal-product').attr('data-id-product'),
-                    price = parseInt( $(this).parents('#full-info-product').find('.price-product').text() ), //Capturar el precio
+                var mid      = $(this).parents('#modal-product').attr('data-id-product'),
+                    price    = parseInt( $(this).parents('#full-info-product').find('.price-product').text() ), //Capturar el precio
                     quantity = $(this).parents('#modal-buyDetail').find('#quantity-product').val(); //Capturar la cantidad
 
 
                 //Callback at method
                 RP.addItemContainer.init(mid, 'modal', 30, quantity, price);
-
-                //Activar Opciones de container
-                setTimeout(function() {
-                    RP.container.tooltip(".container-list li#cont_"+mid,"tooltipM");
-                }, 1200);
 
                 $('#btn-closeBuy').trigger('click');
                 $('#btn-closeModal').trigger('click');
@@ -409,7 +409,9 @@ RP = {
             require(['vendor/jquery.easing']);            
 
             $('.add-cart').on('click', function(e) {
+                //
                 var it = $(this).parents('.li-item').attr('id');
+                
                 RP.addItemContainer.init(it, 'list', 10);
 
                 setTimeout(function() {
@@ -429,26 +431,34 @@ RP = {
 
         // Funcion para el Tooltip de cada producto
         tooltip : function(target_items, name) {
-            var obj = $(target_items),
-                title = $('.title-product', obj).text(),
-                percentage = $('.percentage-item', obj).text(),
-                i = obj.index(),
+            var obj   = $(target_items),
+                title = $('.title-product', obj).text(),                
+                i     = obj.index(),               
                 my_tooltip;
 
             $("body").append(
                 '<div class="'+name+'" id="'+name+i+'">\
                     <h4>'+title+'</h4>\
-                    <ul><li>Adquiridos: 17</li> <li>Porcentaje: <span class="percentage">'+percentage+'</span>%</li> <li>Total/Orden Mínimo: 75/100</li></ul>\
+                    <ul>\
+                        <li>Adquiridos: <span class="quantity"></span></li>\
+                        <li>Porcentaje: <span class="percentage"></span>%</li>\
+                        <li>Total/Orden Mínimo: 75/100</li>\
+                    </ul>\
                 </div>'
             );                
 
 
             $('.container-list li').hover(
                 function(e) {
-                    e.stopPropagation();
-                    var indice = $(this).index();
+                    var indice     = $(this).index(), //Capturar el indice del padre
+                        quantity   = $('.quantity', this).text(),
+                        percentage = $('.percentage-item', this).text();
 
                     my_tooltip = $("#"+name+indice);
+                    
+                    $('.quantity', my_tooltip).text(quantity);
+                    $('.percentage', my_tooltip).text(percentage);
+
                     my_tooltip.css({opacity:0.9, display:"none"}).delay(400).fadeIn(400);
                 },
                 function() {
@@ -470,8 +480,8 @@ RP = {
 
             $('.container-list').on('click', 'li', function(e) {
                 e.stopPropagation();
-                var coorX = $(this).offset().left,
-                    coorY = $(this).offset().top,
+                var coorX  = $(this).offset().left,
+                    coorY  = $(this).offset().top,
                     dataID = $(this).attr('id');
 
                 $('#option-item-container').attr('data-item', dataID);
@@ -481,7 +491,7 @@ RP = {
 
             //
             $('#opt-delete').on('click', function() {
-                var cId = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                var cId    = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
                     itemID = $(this).parents('#option-item-container').attr('data-item');
                 $('#'+itemID).remove();
                 $('#'+cId+' .check-select').remove();
@@ -497,9 +507,9 @@ RP = {
                     url   = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
                     priceUnit = parseFloat($('#'+cId+' .price').text()),
-                    om;
+                    om; //Orden minimo
 
-                if (modalityBuy === 'private') {
+                if (modalityBuy === 'private') { //Preguntar que tipo de modalidad esta
                     om = parseInt($('#'+cId+' .product-item-minimun span').text());
                 } else {
                     om = 1;
@@ -514,9 +524,9 @@ RP = {
                     url   = $('#'+cId+' figure a').attr('href'), 
                     title = $('#'+cId+' h2.title').text(), 
                     priceUnit = parseFloat($('#'+cId+' .price').text()),
-                    om;
+                    om; //Orden Mínimo
 
-                if (modalityBuy === 'private') {
+                if (modalityBuy === 'private') {//Preguntar que tipo de modalidad esta
                     om = parseInt($('#'+cId+' .product-item-minimun span').text());
                 } else {
                     om = 1;
@@ -571,7 +581,7 @@ RP = {
             var gotoX = cartX - productX;
             var gotoY = cartY - productY;
 
-            if (ratio==0) {
+            if (ratio == 0) {
                 $(image_block)
                 .clone()
                 .addClass('img-transition')
@@ -588,7 +598,7 @@ RP = {
     //Add item to Container.
     addItemContainer : {
         init: function(id, typeTag, reduce, cant, price) {
-            var li = $('#container-canvas ol #cont_'+id).length;
+            var li  = $('#container-canvas ol #cont_'+id).length;
             var title, url, img, img_obj, percentage; //Variables de objeto
             var obj = $('body');
 
@@ -606,10 +616,10 @@ RP = {
 
             if (li < 1) {
                 if (typeTag === 'list') { //Preguntar si es un producto de la lista
-                    img   = $('#'+id+' figure img').attr('src'); //capturar imagen
-                    img_obj    = $('#'+id+' figure img'); //Capturar el objeto imagen
+                    img     = $('#'+id+' figure img').attr('src'); //capturar imagen
+                    img_obj = $('#'+id+' figure img'); //Capturar el objeto imagen
                 } else { //Oh si es un Modal
-                    img   = $('#slider-modal img.nivo-main-image').attr('src'); //capturar imagen
+                    img     = $('#slider-modal img.nivo-main-image').attr('src'); //capturar imagen
                     img_obj = $('#slider-modal img.nivo-main-image'); //Capturar el objeto imagen                    
                 }
 
@@ -638,11 +648,18 @@ RP = {
 
                     $('#'+id).append('<span class="check-select" />');
                 }, 1200);
+                
+                //Activar Tooltip para item seleccionado
+                setTimeout(function() {
+                    RP.container.tooltip(".container-list li#cont_"+id, "tooltip");
+                }, 1000);
+                
 
             } else {
                 //Editar Item
-                $('#cont_'+id+' .percentage-item').text((percentage*cant).toFixed(2)); //Modificar el porcentaje
-                $('#cont_'+id+' .total').text(price*cant); //Modificar Precio total
+                $('#cont_'+id+' .percentage-item').text( (percentage*cant).toFixed(2) ); //Modificar el porcentaje
+                $('#cont_'+id+' .quantity').text( cant ); //Modificar la cantidad
+                $('#cont_'+id+' .total').text( price*cant ); //Modificar Precio total
                 addEffect();
                 RP.container.details();
             }
@@ -656,7 +673,7 @@ RP = {
         init: function(url) {
             var newCSS = document.createElement("link");
                 newCSS.type = "text/css";
-                newCSS.rel = "stylesheet";
+                newCSS.rel  = "stylesheet";
                 newCSS.href = encodeURI(url);
 
             document.getElementsByTagName("head")[0].appendChild(newCSS);
@@ -667,7 +684,7 @@ RP = {
 //Ejecutador de metodos segun vista
 UTIL = {
     exec: function(controller, action) {
-        var ns = RP,
+        var ns     = RP,
             action = (action === undefined) ? "init" : action;
  
         if (controller !== "" && ns[controller] && typeof ns[controller][action] == "function") {
@@ -676,9 +693,9 @@ UTIL = {
     },
  
     init: function() {
-        var body = document.body,
+        var body       = document.body,
             controller = body.getAttribute("data-controller"),
-            action = body.getAttribute("data-action");
+            action     = body.getAttribute("data-action");
  
         UTIL.exec("common");
         UTIL.exec(controller);

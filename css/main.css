@@ -559,7 +559,7 @@ ol.container-list, .transition {
 
 
 /* -------------  Tooltips ---------------- */
-.tooltip, .tooltipM {
+.tooltip {
     background-color:#e9e9e9;
     border: #656565 solid 1px;
     position:absolute;
@@ -568,7 +568,7 @@ ol.container-list, .transition {
     width:250px;
     z-index: 999;}
 
-.tooltip h4, .tooltipM h4 {
+.tooltip h4 {
     margin:0;
     padding:0;
     color:#777;

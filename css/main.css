@@ -345,7 +345,7 @@ textarea {resize: vertical;}
 
     .breadcumbs ul li a:hover {color: #333;}
 
-.check-select {
+.check-select, .check-group, .check-group-min {
     background-color: #0099FF;
     display: inline-block;
     height: 15px;
@@ -354,6 +354,12 @@ textarea {resize: vertical;}
     top: 0;    
     width: 15px;
     z-index: 5;}
+
+.check-group {
+    background-color: #676767 !important;}
+
+.check-group-min {
+    background-color: #990000 !important;}
 
 .content-product-item {
     height: 170px;
@@ -470,6 +476,13 @@ textarea {resize: vertical;}
 /* ==========================================================================
    Canvas Container
    ========================================================================== */
+ol.container-list, .transition {
+    /* Transition */
+    -webkit-transition: all 0.30s ease-in-out;
+       -moz-transition: all 0.30s ease-in-out;
+        -ms-transition: all 0.30s ease-in-out;
+            transition: all 0.30s ease-in-out;}
+
 #container-canvas ol {
     border: #777 dashed 2px;
     border-radius: 7px;
@@ -490,15 +503,10 @@ textarea {resize: vertical;}
     line-height: 40px;
     text-align: center;}
 
-#trash-bin ul {
-    border: #CCC solid 1px;
-    border-radius: 7px;
-    height: 50px;
-    padding: 0;}
-
-#trash-bin li {
-    list-style: none;
-    float: left;}
+#fill-unhover {
+    background-color: rgba(0,0,0,0.1);
+    height:73px;
+    width: 80px;}
 
 #measure-container {
     border: #CCC solid 1px;
@@ -533,12 +541,15 @@ textarea {resize: vertical;}
     color: #FFFFFF;
     cursor: pointer;}
 
-ol.container-list, .transition {
-    /* Transition */
-    -webkit-transition: all 0.30s ease-in-out;
-       -moz-transition: all 0.30s ease-in-out;
-        -ms-transition: all 0.30s ease-in-out;
-            transition: all 0.30s ease-in-out;}
+#trash-bin ul {
+    border: #CCC solid 1px;
+    border-radius: 7px;
+    height: 50px;
+    padding: 0;}
+
+#trash-bin li {
+    list-style: none;
+    float: left;}
 
 .container-option ul {
     margin: 0;
@@ -548,14 +559,19 @@ ol.container-list, .transition {
     background-color: rgba(153,204,0,0.5);
     box-shadow: 0 0 5px rgba(0,0,0,0.5);}
 
-#fill-unhover {
-    background-color: rgba(0,0,0,0.1);
-    height:73px;
-    width: 80px;}
-
 .img-transition {    
     position: absolute;
-    z-index':9999;}
+    z-index:9999;}
+
+.opacar {opacity: 0.7;}
+
+.order-you {
+    border: #0099FF solid 1px;
+    opacity: 1.0;}
+
+.pass-minimo {
+    border: #990000 solid 1px;
+    opacity: 1.0;}
 
 
 /* -------------  Tooltips ---------------- */
@@ -566,6 +582,7 @@ ol.container-list, .transition {
     left:-9999px;
     border: 3px;
     width:250px;
+    visibility: hidden;
     z-index: 999;}
 
 .tooltip h4 {

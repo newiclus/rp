@@ -303,7 +303,16 @@ RP = {
             modalityBuy = 'group';
 
             //Habilitar Tooltips
-            RP.container.tooltip(".container-list li#cont_"+id, "tooltip");
+            $('#container-canvas ol li').each(function(i) {
+                var id = $(this).attr('id');
+                RP.container.tooltip(".container-list li#"+id, "tooltip");
+                //Opacar los item en group buy
+                $(this).addClass('opacar');
+            });
+
+            //Activar Detalle del container
+            RP.container.details();
+
         },
 
         //Implementacion del Modal del detalle completo del producto
@@ -425,8 +434,7 @@ RP = {
             //Llamar al efecto dial
             require(['vendor/jquery.knob.min'], function() {
                 $('#dial-container').knob();
-            });
-            
+            });            
         },
 
         // Funcion para el Tooltip de cada producto
@@ -440,29 +448,37 @@ RP = {
                 '<div class="'+name+'" id="'+name+i+'">\
                     <h4>'+title+'</h4>\
                     <ul>\
-                        <li>Adquiridos: <span class="quantity"></span></li>\
-                        <li>Porcentaje: <span class="percentage"></span>%</li>\
-                        <li>Total/Orden Mínimo: 75/100</li>\
+                        <li>Adquiridos: <span class="quantity"></span> </li>\
+                        <li>Porcentaje: <span class="percentage"></span>% </li>\
+                        <li>Orden Mínimo/Total: <span class="order-min"></span> / <span class="order-max"></span> </li>\
                     </ul>\
                 </div>'
             );                
 
 
-            $('.container-list li').hover(
-                function(e) {
+            $('.container-list li').on('mouseover',
+                function() {
                     var indice     = $(this).index(), //Capturar el indice del padre
                         quantity   = $('.quantity', this).text(),
-                        percentage = $('.percentage-item', this).text();
+                        percentage = $('.percentage-item', this).text(),
+                        orderMin   = $('.order-min', this).text(),
+                        orderMax   = $('.order-max', this).text();
 
                     my_tooltip = $("#"+name+indice);
                     
                     $('.quantity', my_tooltip).text(quantity);
                     $('.percentage', my_tooltip).text(percentage);
+                    $('.order-min', my_tooltip).text(orderMin);
+                    $('.order-max', my_tooltip).text(orderMax);
+                    
+                    my_tooltip.css({opacity:0.9, display:"none", visibility: "visible"}).delay(400).fadeIn(300);
+                }
+            );
 
-                    my_tooltip.css({opacity:0.9, display:"none"}).delay(400).fadeIn(400);
-                },
-                function() {
+            $('.container-list li').on('mouseout',
+                function(e) {
                     my_tooltip.hide(0);
+                    $('.tooltip').css('visibility', 'hidden');
                 }
             );
            
@@ -489,7 +505,7 @@ RP = {
                 $('#fill-unhover').css({'top': coorY+'px', 'left': coorX+'px'}).fadeIn();
             });
 
-            //
+            //Eliminar Item
             $('#opt-delete').on('click', function() {
                 var cId    = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
                     itemID = $(this).parents('#option-item-container').attr('data-item');
@@ -498,6 +514,7 @@ RP = {
 
                 hideOptions();
                 RP.container.messageItem('Item Eliminado');
+
                 RP.container.details();
             });
 
@@ -599,7 +616,7 @@ RP = {
     addItemContainer : {
         init: function(id, typeTag, reduce, cant, price) {
             var li  = $('#container-canvas ol #cont_'+id).length;
-            var title, url, img, img_obj, percentage; //Variables de objeto
+            var title, url, img, img_obj, percentage, orderMin, orderMax; //Variables de objeto
             var obj = $('body');
 
             //Effect change color for a moment in container
@@ -610,9 +627,11 @@ RP = {
                 }, 300);
             }; 
 
-            title = $('#'+id+' .title').text(); //Capturar titulo
-            url   = $('#'+id+' figure a').attr('href');//capturar URL
-            percentage = $('#'+id+' .product-item-percentage span').text(); //Capturar Porcentaje                
+            title    = $('#'+id+' .title').text(); //Capturar titulo
+            url      = $('#'+id+' figure a').attr('href');//capturar URL
+            percentage = $('#'+id+' .product-item-percentage span').text(); //Capturar Porcentaje
+            orderMin = $('#'+id+' .product-item-minimun span').text(); //Capturar orden minimo
+            orderMin = 100;
 
             if (li < 1) {
                 if (typeTag === 'list') { //Preguntar si es un producto de la lista
@@ -638,6 +657,8 @@ RP = {
                                     <span class="price">'+price+'</span>\
                                     <span class="quantity">'+cant+'</span>\
                                     <span class="total">'+cant*price+'</span>\
+                                    <span class="order-min">'+orderMin+'</span>\
+                                    <span class="order-max">'+orderMax+'</span>\
                                 </div>\
                             </a>\
                         </li>'

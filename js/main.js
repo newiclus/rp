@@ -305,9 +305,7 @@ RP = {
             //Habilitar Tooltips
             $('#container-canvas ol li').each(function(i) {
                 var id = $(this).attr('id');
-                RP.container.tooltip(".container-list li#"+id, "tooltip");
-                //Opacar los item en group buy
-                $(this).addClass('opacar');
+                RP.container.tooltip("#"+id, "tooltip");
             });
 
             //Activar Detalle del container
@@ -419,13 +417,13 @@ RP = {
 
             $('.add-cart').on('click', function(e) {
                 //
-                var it = $(this).parents('.li-item').attr('id');
+                /*var it = $(this).parents('.li-item').attr('id');
                 
                 RP.addItemContainer.init(it, 'list', 10);
 
                 setTimeout(function() {
                     RP.container.tooltip(".container-list li#cont_"+it,"tooltipM");
-                }, 1200);
+                }, 1200);*/
             });
 
             //Callback a método OptionItem
@@ -441,11 +439,11 @@ RP = {
         tooltip : function(target_items, name) {
             var obj   = $(target_items),
                 title = $('.title-product', obj).text(),                
-                i     = obj.index(),               
+                i     = $(target_items).attr('id'),               
                 my_tooltip;
 
             $("body").append(
-                '<div class="'+name+'" id="'+name+i+'">\
+                '<div class="'+name+'" id="tool'+i+'">\
                     <h4>'+title+'</h4>\
                     <ul>\
                         <li>Adquiridos: <span class="quantity"></span> </li>\
@@ -458,13 +456,13 @@ RP = {
 
             $('.container-list li').on('mouseover',
                 function() {
-                    var indice     = $(this).index(), //Capturar el indice del padre
-                        quantity   = $('.quantity', this).text(),
-                        percentage = $('.percentage-item', this).text(),
-                        orderMin   = $('.order-min', this).text(),
-                        orderMax   = $('.order-max', this).text();
+                    var id         = $(this).attr('id'), //Capturar el id del padre
+                        quantity   = $('.quantity', this).text(), //Capturar la cantidad del producto ordenada
+                        percentage = $('.percentage-item', this).text(), //Capturar el porcentaje
+                        orderMin   = $('.order-min', this).text(), //Capturar el orden mínimo
+                        orderMax   = $('.order-max', this).text(); //Capturar el orden máximo
 
-                    my_tooltip = $("#"+name+indice);
+                    my_tooltip = $("#tool"+id);
                     
                     $('.quantity', my_tooltip).text(quantity);
                     $('.percentage', my_tooltip).text(percentage);
@@ -507,15 +505,19 @@ RP = {
 
             //Eliminar Item
             $('#opt-delete').on('click', function() {
-                var cId    = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
-                    itemID = $(this).parents('#option-item-container').attr('data-item');
+                var cID    = $(this).parents('#option-item-container').attr('data-item').split('cont_').join().replace(',',''), //Capturar el ID del producto
+                    itemID = $(this).parents('#option-item-container').attr('data-item'), //Capturar el ID del item container
+                    toolID = $('#'+itemID).index(); //Capturar el index() del item container
+                
+                $('#tooltip'+toolID).remove();
                 $('#'+itemID).remove();
-                $('#'+cId+' .check-select').remove();
+                $('#'+cID+' .check-select').remove();
 
-                hideOptions();
-                RP.container.messageItem('Item Eliminado');
+                hideOptions(); //Ocultar Opciones
+                
+                RP.container.messageItem('Item Eliminado'); //Aviso de eliminacion
 
-                RP.container.details();
+                RP.container.details(); //Actualizar info del container
             });
 
             //Option "view" of the item 
@@ -574,7 +576,15 @@ RP = {
 
                 $('.container-list li').each(function() {
                     var costItem   = parseFloat( $('.total', this).text() ),
-                        percentage = parseFloat( $('.percentage-item', this).text() );
+                        percentage = parseFloat( $('.percentage-item', this).text() ),
+                        quantity   = parseInt( $('.quantity', this).text() ),
+                        orderMin   = parseInt( $('.order-min', this).text() );
+
+                    if (quantity >= orderMin) {
+                        $(this).addClass('pass-minimo');
+                    } else {
+                        $(this).removeClass('pass-minimo');
+                    }
 
                     costFull += costItem;
                     porcentaje += percentage;            
@@ -631,7 +641,7 @@ RP = {
             url      = $('#'+id+' figure a').attr('href');//capturar URL
             percentage = $('#'+id+' .product-item-percentage span').text(); //Capturar Porcentaje
             orderMin = $('#'+id+' .product-item-minimun span').text(); //Capturar orden minimo
-            orderMin = 100;
+            orderMax = 100;
 
             if (li < 1) {
                 if (typeTag === 'list') { //Preguntar si es un producto de la lista
@@ -648,7 +658,7 @@ RP = {
                     addEffect();
 
                     $('.container-list').append(
-                        '<li id="cont_'+id+'">\
+                        '<li id="cont_'+id+'" class="order-you">\
                             <a href="'+url+'">\
                                 <img src="'+img+'" alt="" width="80" height="73" >\
                                 <div class="hidden">\
@@ -672,8 +682,8 @@ RP = {
                 
                 //Activar Tooltip para item seleccionado
                 setTimeout(function() {
-                    RP.container.tooltip(".container-list li#cont_"+id, "tooltip");
-                }, 1000);
+                    RP.container.tooltip("#cont_"+id, "tooltip");
+                }, 1200);
                 
 
             } else {

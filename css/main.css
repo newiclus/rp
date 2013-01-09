@@ -559,19 +559,23 @@ ol.container-list, .transition {
     background-color: rgba(153,204,0,0.5);
     box-shadow: 0 0 5px rgba(0,0,0,0.5);}
 
+.group-buy ol li {
+    opacity: 0.7;}
+
+.group-buy .order-you {
+    border: #0099FF solid 1px;}
+
+.group-buy .pass-minimo {
+    border: #990000 solid 1px;
+    opacity: 1.0 !important;}
+
 .img-transition {    
     position: absolute;
     z-index:9999;}
 
 .opacar {opacity: 0.7;}
 
-.order-you {
-    border: #0099FF solid 1px;
-    opacity: 1.0;}
 
-.pass-minimo {
-    border: #990000 solid 1px;
-    opacity: 1.0;}
 
 
 /* -------------  Tooltips ---------------- */
@@ -669,10 +673,6 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 .content-footer {
     margin: 0 auto;
     max-width: 80em;}
-
-
-
-
 
 
 

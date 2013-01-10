@@ -14,6 +14,7 @@ Tags: Royal Pioneers, Retails, Import and Export, Products, Peru, Sales of Produ
 body {
     background-color: #f5f5f5;
     font-size: 1em;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;}
 
 ::-moz-selection {
@@ -620,6 +621,8 @@ ol.container-list, .transition {
 
 #modal-product .tab-list {
     width: 50%;}
+
+.tab-active {background-color: #09F !important;}
 
 .content-modal dd {
     margin: 0; 

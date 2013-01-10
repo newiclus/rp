@@ -330,6 +330,19 @@ RP = {
                 $('#modal-buyDetail').slideUp();
             });
 
+            //Tabs Modal actived
+            $('#tab-list li a').live("click", function(e) {
+                e.preventDefault();
+                //Capturar la Ruta de la capa
+                var ruta = $(this).attr('href'); 
+
+                $('#tab-list li a').removeClass('tab-active'); //Adjuntar clase cuando se clickea
+                $(this).addClass('tab-active');
+
+                $('.content-modal dd').fadeOut(350);
+                $(ruta).delay(350).fadeIn();
+            });
+
             //Agregar Producto modal al container
             $('#btn-done').on('click', function() {
                 var mid      = $(this).parents('#modal-product').attr('data-id-product'),
@@ -481,7 +494,7 @@ RP = {
             );
            
             $('.container-list li').mousemove(function(kmouse) {
-                my_tooltip.css({left:kmouse.pageX+15, top:kmouse.pageY+15});
+                my_tooltip.css({left:kmouse.pageX-150, top:kmouse.pageY+30});
             });
         },
 

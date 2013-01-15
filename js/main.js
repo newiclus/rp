@@ -157,7 +157,8 @@ RP = {
             //Bajar Box Preview
             var downBox = function() {
                 session.setItem('boxOpen','true');         
-                $('.preview-product').slideDown();                
+                $('.preview-product').slideDown();
+                $.scrollTo('#preview-product', 500, {over:0.5});              
             };
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
@@ -202,7 +203,7 @@ RP = {
                                 description = 'Esta es una prueba',
                                 url   = $('figure a', this).attr('href'),
                                 image = 'images/test.jpg',                                
-                                price = $('.price', this).text()
+                                price = $('.price', this).text(),
                                 percentage = $('.product-item-percentage span', this).text();
 
                             //Crear un nuevo Objeto
@@ -269,6 +270,7 @@ RP = {
 
             require(['vendor/jquery.zoom']); //Request plugin Zoom
             require(['vendor/nivoslider']); //Request plugin Nivoslider
+            require(['vendor/jquery.scrollTo.min']); //Request plugin Nivoslider
             require(['vendor/jquery-ui.min']); //Request plugin jQuery UI
 
             //Callback al Modal

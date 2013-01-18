@@ -75,12 +75,12 @@ RP = {
     buy : {
         init: function() {
             //estado de capa del Preview = cerrada
-            session.setItem('boxOpen','false');            
+            session.setItem('boxOpen','false');        
 
             //Activar Plugin Slider RP para desplazamiento
             require(['vendor/slideRP'], function() {
                 $('.product-item').slideRP();
-            });        
+            });      
 
             //Mostrar detalles de item-productos al hacer un hover
             $('.content-product-item li').hover(
@@ -158,7 +158,7 @@ RP = {
             var downBox = function() {
                 session.setItem('boxOpen','true');         
                 $('.preview-product').slideDown();
-                $.scrollTo('#preview-product', 500, {over:0.5});              
+                $.scrollTo('#preview-product', 500, {over:0.5}); //Llamar efecto Scrollto             
             };
 
             //Comprobar Box Preview abiertas y cerrar antes de abrir otra
@@ -261,7 +261,7 @@ RP = {
             RP.container.init();
 
             //Invocar metodo hermano        
-            this.modal();
+            this.modals();
 
 
             //Precargar los estilos del jQuery UI y Nivo-slider
@@ -316,7 +316,7 @@ RP = {
         },
 
         //Implementacion del Modal del detalle completo del producto
-        modal: function() {
+        modals: function() {
             //close full-detail modal of product
             $('#btn-closeModal').on('click', function() {
                 $('#modal-product').fadeOut();
@@ -428,7 +428,36 @@ RP = {
     //Canvas Container
     container : {
         init : function() {
-            require(['vendor/jquery.easing']);            
+            require(['vendor/jquery.easing']); //Requerir metodos adicionales            
+
+            //Habilitar: fijar container segun posicion de la ventana (Scrolleable)
+            $(window).scroll(function() {
+                var myWindow        = $(this).scrollTop(), //Capturar el Scroll-Top
+                    screenWidth     = $(window).width(),
+                    contOffsetRight = $('#container-panel').offset().left,
+                    contWidth       = $('#container-panel').width();                
+
+                if (myWindow > 120) {
+                    $('#container-panel').css(
+                        {
+                            'position':'fixed',
+                            'top': '0px',
+                            'right': (screenWidth - contOffsetRight)-contWidth,
+                            'width': contWidth
+                        }                    
+                   );
+                } else {
+                    $('#container-panel').css(
+                        {
+                            'position':'absolute',
+                            'top': '0px',
+                            'right': '0px'
+                        }                    
+                   );
+                }
+                //console.log(screenWidth + ' - ' + contOffsetRight);
+            });
+
 
             $('.add-cart').on('click', function(e) {
                 //
@@ -440,6 +469,44 @@ RP = {
                     RP.container.tooltip(".container-list li#cont_"+it,"tooltipM");
                 }, 1200);*/
             });
+
+            require(['piechart'], function() {//Requerir plugin piechart raphel.js                
+                $('.circle-measure').live('click', function() {
+                    var values = [], //Declarar Arrays Valores y etiquetas
+                        labels = []
+                        total  = 0;
+
+                    $('#table-pie tbody').html('');
+                    $('#tholder').html('');
+
+                    $('#container-canvas li').each(function() {
+                        var title   = $('.title-product', this).text()
+                            percent = parseInt( $('.percentage-item', this).text(), 10);
+
+                        $('#table-pie tbody').append(
+                            '<tr><th scope="row">'+title+' '+percent+' %</th><td>'+percent+'</td></tr>'
+                        );
+
+                        total += percent;
+                    });
+
+                    if (total < 100) {
+                        $('#table-pie tbody').append(
+                            '<tr><th scope="row">Restante</th><td>'+(100-total)+'</td></tr>'
+                        );
+                    }
+
+
+                    $("#table-pie tr").each(function () {
+                        values.push(parseInt($("td", this).text(), 10));
+                        labels.push($("th", this).text());
+                    });
+
+                    //console.log(total);
+                    Raphael("holder", 400, 400).pieChart(200, 200, 75, values, labels, "#fff", 1);
+                    $('#myModal').modal();
+                });
+            });                
 
             //Callback a método OptionItem
             this.optionItem();
@@ -460,7 +527,7 @@ RP = {
             $("body").append(
                 '<div class="'+name+'" id="tool'+i+'">\
                     <h4>'+title+'</h4>\
-                    <ul>\
+                    <ul class="unstyled">\
                         <li>Adquiridos: <span class="quantity"></span> </li>\
                         <li>Porcentaje: <span class="percentage"></span>% </li>\
                         <li>Orden Mínimo/Total: <span class="order-min"></span> / <span class="order-max"></span> </li>\

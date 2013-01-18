@@ -176,7 +176,8 @@ textarea {resize: vertical;}
 #container-panel {
     width: 22%;}
 
-#colophon {    
+#colophon {
+    background-color: #c7d0d4;
     height: 100px;}
 
 #main {

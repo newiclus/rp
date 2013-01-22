@@ -124,12 +124,13 @@ textarea {resize: vertical;}
 /* Hide visually and from screenreaders, but maintain layout */
 .invisible {visibility: hidden;}
 
+.relative {position: relative;}
 
 /* Float side */
 .side-left {float: left;}
 .side-right {float: right;}
 
-.transparent {opacity: .5;}
+.transparent {opacity: .3;}
 
 /* Hide only visually, but have it available for screenreaders: h5bp.com/v */
 .visuallyhidden {
@@ -691,22 +692,72 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
     top: 2px;
     width: 35%;}
 
+#range-price {
+    height: 95px;}
+
+#result-search {
+    margin: 0 0 20px 0;
+    width: 75%}
+
 #result-search dd {
-    padding: 0;
-    margin: 0 15px 0 0;}
+    border-bottom: #CCC solid 1px;
+    padding: 0 0 15px 0;
+    margin: 0 15px 30px 0;}
 
 #result-search figure {
     padding-right: 10px;
     margin: 0;}
 
 #result-search h3 {
-    margin-bottom: 7px;}
+    margin: 0 0 7px 0;}
 
-#result-search p{
+#result-search p {
     padding-bottom: 7px;
     margin: 0;}
 
-#search-refined {width: 30%;}
+#result-search .detail-product-item {margin: 0;}
+
+#search-refined {
+    background-color: #DFDFDF;
+    border-radius: 7px;
+    margin-right: 3%;
+    overflow: hidden;
+    padding: 0 1%;
+    width: 18%;}
+
+#search-refined h2 {
+    background-color: #3a87ad;
+    color: #FFF;
+    font: 600 1em Helvetica;
+    letter-spacing: 0.08em;
+    margin: 0 0 20px 0;
+    padding: 10px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#search-refined h3 {
+    font-size: 0.795em;
+    font-weight: 700;
+    margin: 0;
+    padding: 15px 0 15px 0;
+    text-align:center;
+    text-transform: uppercase;}
+
+#search-option {
+    background-color: #DFDFDF;
+    padding: 1% 3%;
+}
+
+#slider-price-range {
+    height:10px;}
+
+#search-theme h1 {
+    font-size: 1.5em;}
+
+#slider-price-range .ui-slider-handle  {
+    height: 1em;
+    width: 1em;}
 
 .cont-switch {
     background-color: #FEFEFE;
@@ -741,6 +792,30 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
     z-index: 20;}
 
 .input-prepend {position: relative;}
+
+.price-label {
+    color: #777;
+    font-weight: 700;
+    top: 60px;}
+
+.search-field {    
+    border-bottom: #FEFEFE solid 2px;
+    margin-bottom: 30px;
+    padding: 10px 0 0 0;}
+
+.search-field input {
+    background-color: transparent;
+    border:none;
+    box-shadow: none !important; 
+    -webkit-box-shadow: none; 
+    -webkit-transition: none;
+    color: #777;
+    font: 700 1.5em sans-serif;
+    height: 50px;
+    outline: none;
+    padding-left: 2%;
+    width: 80%;
+}
 
 .search-options li {
     padding-left: 5%;}

@@ -70,14 +70,14 @@
 
         <div id="wrapper" class="content">
 
-            <section id="search">
+            <section id="search-theme">
                 <div id="search-option">
                     <div class="search-field row-fluid">
                         <span>
                             <input type="search" id="search-input" name="search-input" placeholder="Search your Product" autofocus>
                         </span>
                         <span>
-                            <button id="btn-search">Buscar</button>
+                            <button type="submit" id="btn-search" class="btn btn-large btn-info">Buscar</button>
                         </span>
                     </div>
                    
@@ -151,25 +151,34 @@
                                 </div>
                             </div>
                         </li>
-                    </ul>                                      
+                    </ul>
                 </div><!-- end #search-header -->
 
                 <h1 class="muted">Result of search</h1>
 
                 <div class="row-fluid">
-                    <div id="search-refined" class="side-left">
-                        
-                    </div>
+                    <aside id="search-refined" class="side-left">
+                        <h2>Refined Search</h2>
+                        <article id="range-price" class="relative">
+                            <h3 class="text-info">Filter Price Range</h3>                           
+                            <div id="slider-price-range"></div>
+
+                            <label id="price-r1" class="absolute-TopLeft price-label"></label>
+                            <label id="price-r2" class="absolute-TopLeft price-label"></label>
+                        </article>
+
+                    </aside><!-- end #search-refined -->
                     
                     <dl id="result-search" class="side-left">
-                        <dd>                                            
+                        <dd>
                             <figure class="side-left">
                                 <img src="images/photo/product/medium/belt_m_1.jpg" alt="Mesa de Madera Caoba" class="img-rounded">
                             </figure>
 
                             <article class="detail-product-item">
                                 <h3 class="title text-info">Mesa de Madera caoba <small>by <a href="#">Shen Long</a></small></h3>  
-                                <p class="price text-success"><sup>$</sup><strong>12.3</strong></p>
+                                <p class="price-g text-success">Group <sup>$</sup><strong>15.3</strong></p>
+                                <p class="price-p text-error">Private <sup>$</sup><strong>12.3</strong></p>
                                 <p class="Percetage"><strong>0.012</strong></p>
                                 <p class="star">3</p>
                                 <p class="summary">This is a litle summary about the product and it's features</p>
@@ -177,16 +186,35 @@
                             
                             <div class="option-item-search">
                                 <div class="modality-buy">
-                                    <a class="btn" id="btn-gb">Group Buy</a>
-                                    <a class="btn" id="btn-pb">Private Buy</a>
+                                    <a class="btn btn-info" id="btn-gb">Group Buy</a>
+                                    <a class="btn btn-danger" id="btn-pb">Private Buy</a>
                                 </div>
-                            </div>
-                            
+                            </div>                            
                         </dd>
-                    </dl>
-                </div>
 
-                    
+                        <dd>
+                            <figure class="side-left">
+                                <img src="images/photo/product/medium/belt_m_1.jpg" alt="Mesa de Madera Caoba" class="img-rounded">
+                            </figure>
+
+                            <article class="detail-product-item">
+                                <h3 class="title text-info">Mesa de Madera caoba <small>by <a href="#">Shen Long</a></small></h3>  
+                                <p class="price-g text-success">Group <sup>$</sup><strong>15.3</strong></p>
+                                <p class="price-p text-error">Private <sup>$</sup><strong>12.3</strong></p>
+                                <p class="Percetage"><strong>0.012</strong></p>
+                                <p class="star">3</p>
+                                <p class="summary">This is a litle summary about the product and it's features</p>
+                            </article>
+                            
+                            <div class="option-item-search">
+                                <div class="modality-buy">
+                                    <a class="btn btn-info" id="btn-gb">Group Buy</a>
+                                    <a class="btn btn-danger" id="btn-pb">Private Buy</a>
+                                </div>
+                            </div>                            
+                        </dd>
+                    </dl><!-- end #result-search -->
+                </div>                   
 
             </section><!-- end #main -->
             

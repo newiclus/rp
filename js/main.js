@@ -312,7 +312,6 @@ RP = {
 
             //Activar Detalle del container
             RP.container.details();
-
         },
 
         //Implementacion del Modal del detalle completo del producto
@@ -796,14 +795,45 @@ RP = {
     //Search of products
     search : {
         init : function() {
+            RP.loadCss.init("css/jquery-ui.min.css");//Precargar los estilos del jQuery UI
+            require(['vendor/jquery-ui.min']); //Request plugin jQuery UI
+
+            //Call back a method: interruptor
             this.interruptor();
+
+            //Implementar slider-range
+            $("#slider-price-range").slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [75, 250],
+                slide: function( event, ui ) {
+                    var posR1 = parseFloat( $('#slider-price-range .ui-slider-handle:first').css('left') ),
+                        posR2 = parseFloat( $('#slider-price-range .ui-slider-handle:last').css('left') );
+                    
+                    $("#price-r1").css('left', posR1 - 12);
+                    $("#price-r2").css('left', posR2 - 12);
+
+                    $("#price-r1").text( "$" + ui.values[ 0 ] );
+                    $("#price-r2").text( "$" + ui.values[ 1 ] );
+                }
+            }); 
+
+            var posR1 = parseFloat( $('#slider-price-range .ui-slider-handle:first').css('left') ),
+                posR2 = parseFloat( $('#slider-price-range .ui-slider-handle:last').css('left') );
+                    
+            $("#price-r1").css('left', posR1 - 12);
+            $("#price-r2").css('left', posR2 - 12);
+
+            $("#price-r1").text( "$" + $( "#slider-price-range" ).slider( "values", 0 ) );
+            $("#price-r2").text( "$" + $( "#slider-price-range" ).slider( "values", 1 ) );
         },
 
         interruptor : function() {
             //Check Switch
             $('#check-buy').on('change',
                 function() {
-                    if($('#check-buy:checked').length === 1) {
+                    if($('#check-buy').prop('checked')) {
                         $('#buy-private').trigger('click');
                         $('.hide-switch').fadeOut(150);
                     } else {

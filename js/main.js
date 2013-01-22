@@ -791,6 +791,41 @@ RP = {
 
             document.getElementsByTagName("head")[0].appendChild(newCSS);
         }
+    },
+
+    //Search of products
+    search : {
+        init : function() {
+            this.interruptor();
+        },
+
+        interruptor : function() {
+            //Check Switch
+            $('#check-buy').on('change',
+                function() {
+                    if($('#check-buy:checked').length === 1) {
+                        $('#buy-private').trigger('click');
+                        $('.hide-switch').fadeOut(150);
+                    } else {
+                        $('#buy-private').removeAttr('checked');
+                        $('#buy-group').removeAttr('checked');
+                        $('.hide-switch').fadeIn(150);
+                    }
+                }
+            );
+
+            $('.cont-switch button').on('click', function() {
+                var radioID = $(this).attr('data-rel'), //Capturar el id del radio
+                    moveTo  = $(this).attr('data-move-to'), //Capturar el Movimiento
+                    title   = $(this).text(); //Capturar el titulo del tipo de compra
+
+                $(radioID).trigger('click');
+
+                $('#btn-switch').animate(
+                    {left: moveTo}, 200
+                ).text(title);
+            });
+        }
     }
 };
 

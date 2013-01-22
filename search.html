@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <link href='http://fonts.googleapis.com/css?family=Inder:400italic,400' rel='stylesheet' type='text/css'>
 
         <!--[if lt IE 8]>
             <link rel="stylesheet" href="css/ie.css">
@@ -25,48 +24,10 @@
         <script data-main="js/" src="js/require.min.js"> </script>
     </head>
 
-    <body data-controller="buy" data-action="private">
-        <!--[if lt IE 8]>
+    <body data-controller="search" data-action="product">
+        <!--[if lt IE 9]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-
-        <section id="search" class="absolute-TopLeft hidden">
-            <article class="content">
-                <button id="btn-closeSearch" class="absolute-TopRight">Close</button>
-                <p><strong>Search Royal Pioneers</strong> </p>
-                <p>Type your product</p>
-                <form>
-                    <fieldset>
-                        <select name="category" id="list-category">
-                            <option value="0">Category</option>
-                            <option value="1">All</option>
-                            <option value="2">Home</option>
-                            <option value="3">Computer</option>
-                            <option value="4">Clothes</option>
-                            <option value="5">Book</option>
-                        </select>
-
-                        <input type="search" name="search-principal">
-
-                        <button type="submit">search</button>
-                    </fieldset>
-
-                    <section id="option-search">                            
-                        <div id="range-price" class="side-left">Range Price</div>
-
-                        <div id="range-time" class="side-left" >Range Time</div>
-
-                        <div id="modality-option" class="side-left">
-                            <ul>
-                                <li class="modality"><a href="#">Private Buy</a></li>
-                                <li class="modality"><a href="#">Group Buy</a></li>
-                            </ul>
-                        </div>
-                    </section>
-
-                </form>
-            </article>
-        </section><!-- end #search -->                   
+        <![endif]-->                          
 
         <header id="branding">
             <div id="top-header">
@@ -85,9 +46,7 @@
                             <li><a href="#" title="Opcion 4">Menu 4</a></li>                            
                         </ul>
                     </nav><!-- end #menu-content -->
-
-                    <button id="btn-config" class="absolute-TopLeft">&nbsp;</button>
-
+                    
                     <aside id="link-actions" class="side-left">
                         <div><a class="btn-showSearch" title="Button">Search</a></div>
                         <div><a class="" title="Button">Language</a></div>
@@ -97,48 +56,6 @@
                     </aside>
                 </div>
             </div>
-
-            <div id="config-buy" class="hidden">
-                <dl id="modality-buy" class="content">
-                    <dd><a href="index.html">Private Buy</a></dd>
-                    <dd><a href="group_buy.html">Group Buy</a></dd>
-                </dl>
-
-                <div class="select-container hidden">
-                    <form id="form-pb">
-                        <fieldset>
-                            <select name="country" id="country-pb">
-                                <option value="0">Choose Country</option>
-                                <option value="PER">Peru</option>
-                                <option value="COL">Colombia</option>
-                                <option value="USA">USA</option>
-                            </select>
-
-                            <button type="submit">Done</button>
-                        </fieldset>
-                    </form>
-
-                    <form id="form-gb">
-                        <fieldset>
-                            <select name="country" id="country-gb">
-                                <option value="0">Choose Country</option>
-                                <option value="PER">Peru</option>
-                                <option value="COL">Colombia</option>
-                                <option value="USA">USA</option>
-                            </select>
-
-                            <select name="city" id="city-gb">
-                                <option value="0">Choose City</option>
-                                <option value="LIM">Lima</option>
-                                <option value="LIB">Libertad</option>
-                                <option value="CUS">Cusco</option>
-                            </select>
-
-                            <button type="submit">Done</button>
-                        </fieldset>
-                    </form>
-                </div>                
-            </div><!-- end #config-buy -->            
 
             <nav id="menu-category">
                 <ul class="content-category content">
@@ -154,25 +71,122 @@
         <div id="wrapper" class="content">
 
             <section id="search">
+                <div id="search-option">
+                    <div class="search-field row-fluid">
+                        <span>
+                            <input type="search" id="search-input" name="search-input" placeholder="Search your Product" autofocus>
+                        </span>
+                        <span>
+                            <button id="btn-search">Buscar</button>
+                        </span>
+                    </div>
+                   
+                    <ul class="search-options row-fluid unstyled">
+                        <li class="side-left">
+                            <label for="categories">Category</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-home"></i></span>
+                                <select name="categories" id="categories" class="input-medium">
+                                    <option value="0">All Categories</option>
+                                    <option value="art">Art</option>
+                                    <option value="bed_bath">Bed &amp; Bath</option>
+                                    <option value="book">Book</option>
+                                    <option value="electronic">Eletronic</option>
+                                    <option value="clothing">Clothing</option>
+                                </select>  
+                            </div>
+                        </li>
+
+                        <li class="side-left">
+                            <label for="countries">Country</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-globe"></i></span>
+                                <select name="countries" id="countries" class="input-medium">
+                                    <option value="0">All Countries</option>
+                                    <option value="usa">USA</option>
+                                    <option value="china">China</option>
+                                    <option value="malaysa">Malaysia</option>
+                                    <option value="japan">Japan</option>
+                                    <option value="taiwan">Taiwan</option>
+                                </select>
+                            </div>
+                        </li>
+
+                        <li class="side-left">
+                            <label for="manufactures">Manufacture</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-signal"></i></span>
+                                <select name="manufactures" id="manufactures" class="input-medium">
+                                    <option value="0">All Manufactures</option>
+                                    <option value="usa">Zappos</option>
+                                    <option value="china">Chuanseng</option>
+                                    <option value="malaysa">Shenlong</option>
+                                    <option value="japan">Tohatsu</option>
+                                    <option value="taiwan">Great Long</option>
+                                </select>  
+                            </div>
+                        </li>                       
+
+                        <li class="side-left">
+                            <label for="check-buy" class="checkbox">
+                                <input type="checkbox" name="check-buy" id="check-buy">Type Buy
+                            </label>
+
+                            <div class="input-prepend">
+                                <div class="hide-switch absolute-TopLeft"></div>
+
+                                <div class="hidden">
+                                    <label class="radio">
+                                        <input type="radio" id="buy-private" name="type-buy" value="private">
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" id="buy-group" name="type-buy" value="group">
+                                    </label>
+                                </div>
+
+                                <div class="cont-switch">
+                                    <button data-rel="#buy-private" data-move-to="2">Private</button>
+                                    <button data-rel="#buy-group" data-move-to="53">Group</button>
+                                    <a id="btn-switch" class="btn btn-small absolute-TopLeft">Private</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>                                      
+                </div><!-- end #search-header -->
 
                 <h1 class="muted">Result of search</h1>
 
-                <dl id="result-search">
-                    <dd>
-                        <h3 class="title">Mesa de Madera caoba</h3>                      
-                        <figure>
-                            <img src="images/photo/product/medium/belt_m_1.jpg" alt="Mesa de Madera Caoba" class="img-rounded">
-                        </figure>
+                <div class="row-fluid">
+                    <div id="search-refined" class="side-left">
                         
-                        <div class="option-item-search">
-                            <div class="modality-buy">
-                                <button id="btn-gb">Group Buy</button>
-                                <button id="btn-pb">Private Buy</button>
+                    </div>
+                    
+                    <dl id="result-search" class="side-left">
+                        <dd>                                            
+                            <figure class="side-left">
+                                <img src="images/photo/product/medium/belt_m_1.jpg" alt="Mesa de Madera Caoba" class="img-rounded">
+                            </figure>
+
+                            <article class="detail-product-item">
+                                <h3 class="title text-info">Mesa de Madera caoba <small>by <a href="#">Shen Long</a></small></h3>  
+                                <p class="price text-success"><sup>$</sup><strong>12.3</strong></p>
+                                <p class="Percetage"><strong>0.012</strong></p>
+                                <p class="star">3</p>
+                                <p class="summary">This is a litle summary about the product and it's features</p>
+                            </article>
+                            
+                            <div class="option-item-search">
+                                <div class="modality-buy">
+                                    <a class="btn" id="btn-gb">Group Buy</a>
+                                    <a class="btn" id="btn-pb">Private Buy</a>
+                                </div>
                             </div>
-                        </div>
-                        
-                    </dd>
-                </dl>
+                            
+                        </dd>
+                    </dl>
+                </div>
+
+                    
 
             </section><!-- end #main -->
             
@@ -196,8 +210,7 @@
                     <li><button id="opt-delete" title="Eliminar Item" data-item="">Eliminar</button> </li>
                 </ul>
             </nav>
-        </div>
-              
+        </div>             
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
@@ -206,13 +219,6 @@
         <script type="text/javascript">
         //Code Javascript here...
         </script>
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
+        
     </body>
 </html>

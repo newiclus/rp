@@ -10,7 +10,7 @@ var storage,
 //localStorage.clear();
 //sessionStorage.clear();
 
-//Comprobar si el navegador soporta WebStorage
+//Comprobar si el navegador soporta WebStorage, //No te olvides de utilizar modernizr
 try {
     if (localStorage.getItem && sessionStorage.getItem) {
         storage = localStorage;

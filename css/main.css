@@ -495,8 +495,8 @@ ol.container-list, .transition {
     width: 77%;}
 
 #container-canvas ol li {
-    list-style: none;
     float: left;
+    list-style: none;    
     margin: 0 20px 20px 0;}
 
 #container-canvas li .title-product {display: none;}
@@ -506,6 +506,8 @@ ol.container-list, .transition {
     color: #FFFFFF;
     line-height: 40px;
     text-align: center;}
+
+#dial-container {cursor: pointer !important;}
 
 #fill-unhover {
     background-color: rgba(0,0,0,0.1);
@@ -733,8 +735,7 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
     margin: 0 0 20px 0;
     padding: 10px 0;
     text-align: center;
-    text-transform: uppercase;
-}
+    text-transform: uppercase;}
 
 #search-refined h3 {
     font-size: 0.795em;
@@ -746,8 +747,7 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 
 #search-option {
     background-color: #DFDFDF;
-    padding: 1% 3%;
-}
+    padding: 1% 3%;}
 
 #slider-price-range {
     height:10px;}
@@ -828,7 +828,6 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 /* ==========================================================================
    Media Queries
    ========================================================================== */
-
 @media only screen and (min-width: 35em) {
     /* Style adjustments for viewports that meet the condition */
 }
@@ -836,63 +835,4 @@ img.zoomImg:active {cursor: url(images/icon-cursor-zoom.png), default;}
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
        only screen and (min-resolution: 144dpi) {
     /* Style adjustments for high resolution devices */
-}
-
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid required HTTP connection: h5bp.com/r
-   ========================================================================== */
-
-@media print {
-    * {
-        background: transparent !important;
-        color: #000 !important; /* Black prints faster: h5bp.com/s */
-        box-shadow: none !important;
-        text-shadow: none !important;}
-
-    a,
-    a:visited {
-        text-decoration: underline;}
-
-    a[href]:after {
-        content: " (" attr(href) ")";}
-
-    abbr[title]:after {
-        content: " (" attr(title) ")";}
-
-    /*
-     * Don't show links for images, or javascript/internal links
-     */
-
-    .ir a:after,
-    a[href^="javascript:"]:after,
-    a[href^="#"]:after {
-        content: "";
-    }
-
-    pre,
-    blockquote {
-        border: 1px solid #999;
-        page-break-inside: avoid;}
-
-    thead {
-        display: table-header-group; /* h5bp.com/t */
-    }
-
-    tr,
-    img {page-break-inside: avoid;}
-
-    img {max-width: 100% !important;}
-
-    @page {margin: 0.5cm;}
-
-    p,
-    h2,
-    h3 {
-        orphans: 3;
-        widows: 3;}
-
-    h2,
-    h3 {
-        page-break-after: avoid;}
 }
